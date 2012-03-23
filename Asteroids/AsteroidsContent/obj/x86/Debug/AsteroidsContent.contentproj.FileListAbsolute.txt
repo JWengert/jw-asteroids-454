@@ -1,0 +1,1 @@
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\AsteroidsContent\obj\x86\Debug\ResolveAssemblyReference.cache
