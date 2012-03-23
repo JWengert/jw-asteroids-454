@@ -24,6 +24,7 @@ namespace Asteroids
         private Color color;
         private SpriteBatch spritebatch;
         private Texture2D picture;
+        private Rectangle screenbounds;
 
         public GameObject(Game game)
             : base(game)
@@ -31,12 +32,13 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public GameObject(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
+        public GameObject(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
             : base(game)
         {
             this.picture = picture;
             this.position = startposition;
             this.velocity = velocity;
+            this.screenbounds = screenbounds;
         }
 
         /// <summary>
@@ -54,19 +56,46 @@ namespace Asteroids
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public virtual override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            position += velocity;
             base.Update(gameTime);
         }
 
-        public abstract void Collision()
+        /// <summary>
+        /// Checks for collision between two GameObjects
+        /// </summary>
+        /// <param name="obj">GameObject to compare with</param>
+        /// <returns>Reslut of comparisson</returns>
+        public virtual bool Collision(GameObject obj)
         {
+            if (Math.Abs(Vector2.Distance(this.position, obj.position)) <= picture.Height)
+                return true;
+            else
+                return false;
         }
 
-        public virtual void OutofBounds()
+        /// <summary>
+        /// Returns true if object is off screen
+        /// </summary>
+        /// <returns>Boolean of question out of bounds</returns>
+        public virtual bool OutofBounds()
         {
+            //+----------X
+            //|
+            //|
+            //Y
+            if (position.X < 0)
+                return true;
+            else if (position.Y < 0)
+                return true;
+            else if (position.X > screenbounds.Right)
+                return true;
+            else if (position.Y > screenbounds.Bottom)
+                return true;
+            else
+                return false;
         }
     }
 }

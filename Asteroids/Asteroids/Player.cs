@@ -45,14 +45,14 @@ namespace Asteroids
             base.Update(gameTime);
         }
 
-        public override void Collision()
+        public override bool Collision(GameObject obj)
         {
-            throw new NotImplementedException();
+            return base.Collision(obj);
         }
 
-        public override void OutofBounds()
+        public override bool OutofBounds()
         {
-            base.OutofBounds();
+            return base.OutofBounds();
         }
     }
 }

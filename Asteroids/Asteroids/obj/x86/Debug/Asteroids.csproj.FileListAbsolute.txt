@@ -1,0 +1,6 @@
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\bin\x86\Debug\Asteroids.exe
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\bin\x86\Debug\Asteroids.pdb
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\obj\x86\Debug\Asteroids.exe
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Master\Asteroids\Asteroids\obj\x86\Debug\Asteroids.pdb
