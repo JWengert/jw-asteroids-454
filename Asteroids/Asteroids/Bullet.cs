@@ -41,7 +41,7 @@ namespace Asteroids
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            //TESTING
             base.Update(gameTime);
         }
 
