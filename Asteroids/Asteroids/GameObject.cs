@@ -117,9 +117,9 @@ namespace Asteroids
             return this.bounds.Intersects(obj2.bounds);
         }
 
-        public void WrapAround()
+        public virtual void WrapAround()
         {
-
+            
         }
     }
 }
