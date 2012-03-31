@@ -40,6 +40,7 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.screenbounds = screenbounds;
+            this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
         }
 
         /// <summary>
@@ -88,16 +89,16 @@ namespace Asteroids
             //|
             //Y
             // off left
-            if (position.X < 0)
+            if (position.X + origin.X < 0)
                 return true;
             // off right
-            else if (position.X > Game.Window.ClientBounds.Width)
+            else if (position.X + origin.X > Game.Window.ClientBounds.Width)
                 return true;
             // off top
-            if (position.Y < 0)
+            if (position.Y + origin.Y < 0)
                 return true;
             // off bottom
-            else if (position.Y > Game.Window.ClientBounds.Height)
+            else if (position.Y + origin.Y > Game.Window.ClientBounds.Height)
                 return true;
             // not out of bounds
             else
@@ -120,7 +121,5 @@ namespace Asteroids
         {
             return this.bounds.Intersects(obj2.bounds);
         }
-
-
     }
 }
