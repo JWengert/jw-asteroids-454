@@ -32,7 +32,7 @@ namespace Asteroids
             this.speed = 7f;
         }
 
-        // any initialization needed  before loading game content
+        // any initialization needed before loading game content
         public override void Initialize()
         {
             // base must initialize first!!!

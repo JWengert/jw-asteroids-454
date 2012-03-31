@@ -16,57 +16,66 @@ namespace Asteroids
     /// </summary>
     public class Bullet : GameObject
     {
+        // private variables
         private Player owner;
-        public Bullet(Game game)
-            : base(game)
-        {
-            // TODO: Construct any child components here
-        }
 
+        // constructor to initialize most inherited values
         public Bullet(Game game, Texture2D picture, Player owner)
             : base(game, picture)
         {
             this.owner = owner;
-            this.position = this.owner.Position;
-            this.velocity = new Vector2(11f);
+            this.speed = 11f;
             this.scale = 3;
+            CreateBullet();
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
+        // any initialization needed before loading game content
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
+            // base must initialize first!!!
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        // update all variables about 60 times a second. Done before draw.
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
+            // base update must happen afterwards
             base.Update(gameTime);
         }
 
+        // base collision does most collision algorithms needed
         public override bool Collision(GameObject obj)
         {
             return base.Collision(obj);
         }
 
+        // base out of bounds algorithm handles most of this
         public override bool OutofBounds()
         {
             return base.OutofBounds();
         }
 
+        // base drawing handles most the necessary drawing
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
             base.Draw(gameTime, sb);
+        }
+
+        private void CreateBullet()
+        {
+            // get mouse/keyboard input from player
+            MouseState mouseState = Mouse.GetState();
+
+            // get the direction of the mouse by subtracting the mouse from the sprites location
+            Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
+            Vector2 direction = spriteLocation - mouseLocation;
+
+            // set proper variables of this bullet before updating and drawing it
+            this.position.Y = this.owner.Position.Y;
+            this.position.X = this.owner.Position.X;
+            this.velocity.Y = (direction.Y * this.speed * -1);
+            this.velocity.X = (direction.X * this.speed * -1);
         }
     }
 }
