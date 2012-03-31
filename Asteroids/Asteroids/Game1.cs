@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace Asteroids
 {
@@ -18,6 +19,10 @@ namespace Asteroids
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        private List<GameObject> mygameobjects = new List<GameObject>();
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace;
+        private Rectangle screen;
 
         public Game1()
         {
@@ -46,6 +51,14 @@ namespace Asteroids
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            rock1 = Content.Load<Texture2D>("asteroid1");
+            rock2 = Content.Load<Texture2D>("asteroid2");
+            bullet = Content.Load<Texture2D>("bullet");
+            spaceship = Content.Load<Texture2D>("Ship");
+            outerspace=Content.Load<Texture2D>("space");
+            //Might need to be changed!!!
+            screen = new Rectangle(0, 0, 800, 480);
 
             // TODO: use this.Content to load your game content here
         }
