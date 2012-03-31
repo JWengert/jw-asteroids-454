@@ -58,7 +58,7 @@ namespace Asteroids
         private void MovePlayer(MouseState mouseState, Vector2 direction)
         {
             // set the angle (rotation) of the sprite
-            this.rotation = (float)Math.Atan2(direction.Y, direction.X);
+            this.rotation = (float)Math.Atan2(direction.X, direction.Y) + (float)Math.PI / 2;
 
             // forward (toward the mouse)
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -69,9 +69,9 @@ namespace Asteroids
         }
 
         // base drawing handles most the necessary drawing
-        public override void Draw(SpriteBatch sb)
+        public override void DrawMe(SpriteBatch sb)
         {
-            base.Draw(sb);
+            base.DrawMe(sb);
         }
 
         // base collision does most collision algorithms needed

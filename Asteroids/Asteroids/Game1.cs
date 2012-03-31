@@ -115,7 +115,7 @@ namespace Asteroids
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, 800, 480), Color.White);
             foreach (GameObject obj in mygameobjects)
             {
-                obj.Draw(spriteBatch);
+                obj.DrawMe(spriteBatch);
             }
             spriteBatch.End();
             // TODO: Add your drawing code here

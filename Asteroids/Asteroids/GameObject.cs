@@ -19,7 +19,7 @@ namespace Asteroids
     {
         protected Vector2 position, velocity, origin;
         protected float speed;
-        protected bool alive;
+        protected bool alive = true;
         protected float scale, rotation, depth;
         protected Color color;
         protected Texture2D picture;
@@ -40,6 +40,7 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.screenbounds = screenbounds;
+            color = Color.White;
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Asteroids
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            alive = true;
+            
             base.Initialize();
         }
 
@@ -109,11 +110,12 @@ namespace Asteroids
         /// </summary>
         public bool IsAlive { get { return alive; } }
 
-        public virtual void Draw(SpriteBatch sb)
+        public virtual void DrawMe(SpriteBatch sb)
         {
             // only draw if it's alive
             if (IsAlive)
-                sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
+                sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth); // use null to draw entire picture
+            
         }
     }
 }
