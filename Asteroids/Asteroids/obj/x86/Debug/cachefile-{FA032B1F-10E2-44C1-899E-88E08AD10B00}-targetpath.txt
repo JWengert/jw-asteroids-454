@@ -1,0 +1,5 @@
+Content\asteroid1.xnb
+Content\asteroid2.xnb
+Content\bullet.xnb
+Content\space.xnb
+Content\Ship.xnb

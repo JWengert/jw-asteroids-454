@@ -19,7 +19,7 @@ namespace Asteroids
     {
         protected Vector2 position, velocity, origin;
         protected float speed;
-
+        protected bool alive;
         protected float scale, rotation, depth;
         protected Color color;
         protected Texture2D picture;
@@ -97,10 +97,14 @@ namespace Asteroids
                 return false;
         }
 
+        /// <summary>
+        /// Check if the gameobject is alive
+        /// </summary>
+        public bool IsAlive { get { return alive; } }
+
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(picture, position, Color.White);
         }
-
     }
 }
