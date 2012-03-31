@@ -28,6 +28,7 @@ namespace Asteroids
         {
             this.position = startposition;
             this.velocity = velocity;
+            this.bounds.Radius = 20;
         }
 
         /// <summary>

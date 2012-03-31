@@ -30,6 +30,7 @@ namespace Asteroids
             this.position = this.owner.Position;
             this.velocity = new Vector2(11f);
             this.scale = 3;
+            this.bounds.Radius = 5 * this.scale;
         }
 
         /// <summary>
