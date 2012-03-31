@@ -15,6 +15,13 @@ namespace Asteroids
     // Player inherits all traits from GameObject
     public class Player : GameObject
     {
+        // public variables
+        public bool createBullet = false;
+
+        // variables to spread out the time between each bullet
+        private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(250);
+        private TimeSpan timeBulleElapsed = TimeSpan.Zero;
+
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
             : base(game, picture, startposition, velocity, screenbounds)
@@ -37,8 +44,9 @@ namespace Asteroids
         // update all variables about 60 times a second. Done before draw.
         public override void Update(GameTime gameTime)
         {
-            // get mouse input from player
+            // get mouse/keyboard input from player
             MouseState mouseState = Mouse.GetState();
+            KeyboardState keyboardState = Keyboard.GetState();
 
             // get the direction of the mouse by subtracting the mouse from the sprites location
             Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
@@ -53,6 +61,17 @@ namespace Asteroids
                 MovePlayer(mouseState, direction);
             }
 
+            // update the elapsed time since a bullet was shot indicate to shoot one if necessary
+            timeBulleElapsed += gameTime.ElapsedGameTime;
+            if (timeBulleElapsed > timeNewBullet &&
+                (mouseState.RightButton == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space)))
+            {
+                timeBulleElapsed = TimeSpan.Zero;
+                createBullet = true;
+            }
+            else
+                createBullet = false;
+
             // base update must happen afterwards
             base.Update(gameTime);
         }
@@ -66,7 +85,6 @@ namespace Asteroids
             // forward (toward the mouse)
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                
                 this.position.X -= (direction.X * this.speed);
                 this.position.Y -= (direction.Y * this.speed);
             }
