@@ -27,7 +27,9 @@ namespace Asteroids
             : base(game, picture)
         {
             this.owner = owner;
-            
+            this.position = this.owner.Position;
+            this.velocity = new Vector2(11f);
+            this.scale = 3;
         }
 
         /// <summary>
