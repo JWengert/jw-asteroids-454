@@ -23,6 +23,7 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace;
         private Rectangle screen;
+        private int number_asteroids;
 
         public Game1()
         {
@@ -65,6 +66,13 @@ namespace Asteroids
 
             mygameobjects.Add(new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), screen));
 
+            Random randy = new Random();
+            number_asteroids = randy.Next(2, 10);
+            for (int i = 0; i < number_asteroids; i++)
+            {
+                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(300, 300), new Vector2(10), screen));
+            }
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -89,7 +97,10 @@ namespace Asteroids
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            foreach (GameObject obj in mygameobjects)
+            {
+                obj.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -102,7 +113,10 @@ namespace Asteroids
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, 800, 480), Color.White);
-
+            foreach (GameObject obj in mygameobjects)
+            {
+                obj.Draw(spriteBatch);
+            }
             spriteBatch.End();
             // TODO: Add your drawing code here
 
