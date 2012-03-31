@@ -112,7 +112,7 @@ namespace Asteroids
         public virtual void Draw(GameTime gameTime, SpriteBatch sb)
         {
             // only draw if it's alive
-            //if (IsAlive)
+            if (IsAlive)
                 sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
 
