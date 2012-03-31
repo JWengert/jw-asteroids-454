@@ -23,13 +23,11 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
 
         // constructor does most the initialization of the inherited variables
-        public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
-            : base(game, picture, startposition, velocity, screenbounds)
+        public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
+            : base(game, picture)
         {
-            this.picture = picture;
             this.position = startposition;
             this.velocity = velocity;
-            this.screenbounds = screenbounds;
             this.scale = 0.5f;
             this.speed = 7f;
         }

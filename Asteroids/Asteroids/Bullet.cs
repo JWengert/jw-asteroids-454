@@ -23,8 +23,8 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public Bullet(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds, Player owner)
-            : base(game, picture, startposition, velocity, screenbounds)
+        public Bullet(Game game, Texture2D picture, Player owner)
+            : base(game, picture)
         {
             this.owner = owner;
             
