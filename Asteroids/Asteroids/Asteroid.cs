@@ -65,5 +65,10 @@ namespace Asteroids
         {
             return base.OutofBounds();
         }
+
+        public override void Draw(GameTime gameTime, SpriteBatch sb)
+        {
+            base.Draw(gameTime, sb);
+        }
     }
 }
