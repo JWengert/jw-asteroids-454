@@ -63,6 +63,8 @@ namespace Asteroids
             //Might need to be changed!!!
             screen = new Rectangle(0, 0, 800, 480);
 
+            mygameobjects.Add(new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), screen));
+
             // TODO: use this.Content to load your game content here
         }
 
