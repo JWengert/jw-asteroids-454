@@ -21,6 +21,7 @@ namespace Asteroids
         SpriteBatch spriteBatch;
 
         private List<GameObject> mygameobjects = new List<GameObject>();
+        private Stack<Player> players = new Stack<Player>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace;
         private Rectangle screen;
         private int number_asteroids;
@@ -111,8 +112,11 @@ namespace Asteroids
                 obj.Update(gameTime);
                 if (obj is Player)
                     if (Player.createBullet)
-                        mygameobjects.Add(new Bullet(this, bullet, (Player)obj));
+                        players.Push((Player)obj);
             }
+            while (players.Count != 0)
+                mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
+
             base.Update(gameTime);
         }
 

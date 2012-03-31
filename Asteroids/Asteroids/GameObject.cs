@@ -26,6 +26,12 @@ namespace Asteroids
         protected SpriteEffects effects = SpriteEffects.None;
         protected BoundingSphere bounds;
 
+        public Vector2 Position 
+        { 
+            get { return position; } 
+            private set { position = value; } 
+        }
+
         public GameObject(Game game)
             : base(game)
         {
