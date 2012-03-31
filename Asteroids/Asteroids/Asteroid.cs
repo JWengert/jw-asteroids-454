@@ -56,11 +56,6 @@ namespace Asteroids
             return base.Collision(obj);
         }
 
-        public override void DrawMe(SpriteBatch sb)
-        {
-            base.DrawMe(sb);
-        }
-
         public override bool OutofBounds()
         {
             return base.OutofBounds();

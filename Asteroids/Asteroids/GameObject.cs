@@ -50,7 +50,6 @@ namespace Asteroids
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            alive = true;
             base.Initialize();
         }
 
@@ -108,7 +107,7 @@ namespace Asteroids
         /// <summary>
         /// Check if the gameobject is alive
         /// </summary>
-        public bool IsAlive { get { return alive; } }
+        public bool IsAlive { get { return alive; } set { alive = value; } }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch sb)
         {
@@ -120,6 +119,10 @@ namespace Asteroids
         public virtual bool CheckColl(GameObject obj2)
         {
             return this.bounds.Intersects(obj2.bounds);
+        }
+
+        public void WrapAround()
+        {
         }
     }
 }
