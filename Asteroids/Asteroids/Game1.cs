@@ -110,9 +110,8 @@ namespace Asteroids
                 }
                 obj.Update(gameTime);
                 if (obj is Player)
-                {
-                    
-                }
+                    if (Player.createBullet)
+                        obj.IsAlive = false;
             }
             base.Update(gameTime);
         }

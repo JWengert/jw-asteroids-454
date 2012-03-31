@@ -16,7 +16,7 @@ namespace Asteroids
     public class Player : GameObject
     {
         // public variables
-        public bool createBullet = false;
+        public static bool createBullet = false;
 
         // variables to spread out the time between each bullet
         private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(250);
