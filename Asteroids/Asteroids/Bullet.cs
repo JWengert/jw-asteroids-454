@@ -27,6 +27,7 @@ namespace Asteroids
             : base(game, picture, startposition, velocity, screenbounds)
         {
             this.owner = owner;
+            
         }
 
         /// <summary>
