@@ -22,6 +22,12 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
+        public Bullet(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
+            : base(game, picture, startposition, velocity, screenbounds)
+        {
+
+        }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
