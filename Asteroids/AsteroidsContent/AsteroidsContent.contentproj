@@ -57,8 +57,15 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="hs-2006-01-a-1920x1200_wallpaper.jpg">
-      <Name>hs-2006-01-a-1920x1200_wallpaper</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ship.png">
+      <Name>Ship</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="space.jpg">
+      <Name>space</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
