@@ -28,6 +28,7 @@ namespace Asteroids
         {
             this.position = startposition;
             this.velocity = velocity;
+            this.scale = 1;
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Asteroids
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            this.rotation += 1f;
+            this.rotation += 0.01f;
             base.Update(gameTime);
         }
 
