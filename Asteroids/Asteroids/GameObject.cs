@@ -23,9 +23,14 @@ namespace Asteroids
         protected float scale, rotation, depth;
         protected Color color = Color.White;
         protected Texture2D picture;
-        protected Rectangle screenbounds;
         protected SpriteEffects effects = SpriteEffects.None;
         protected BoundingSphere bounds;
+
+        public Vector2 Position 
+        { 
+            get { return position; } 
+            private set { position = value; } 
+        }
 
         public GameObject(Game game)
             : base(game)
@@ -33,13 +38,10 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public GameObject(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
+        public GameObject(Game game, Texture2D picture)
             : base(game)
         {
             this.picture = picture;
-            this.position = startposition;
-            this.velocity = velocity;
-            this.screenbounds = screenbounds;
             this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
             this.bounds.Center.X = (this.position + this.origin).X;
             this.bounds.Center.Y = (this.position + this.origin).Y;
@@ -128,6 +130,7 @@ namespace Asteroids
 
         public void WrapAround()
         {
+
         }
     }
 }

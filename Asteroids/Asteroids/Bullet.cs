@@ -23,11 +23,13 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public Bullet(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds, Player owner)
-            : base(game, picture, startposition, velocity, screenbounds)
+        public Bullet(Game game, Texture2D picture, Player owner)
+            : base(game, picture)
         {
             this.owner = owner;
-            this.bounds.Radius = 5;
+            this.position = this.owner.Position;
+            this.velocity = new Vector2(11f);
+            this.scale = 3;
         }
 
         /// <summary>

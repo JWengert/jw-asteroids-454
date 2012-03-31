@@ -23,10 +23,11 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public Asteroid(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
-            : base(game, picture, startposition, velocity, screenbounds)
+        public Asteroid(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
+            : base(game, picture)
         {
-            this.bounds.Radius = 20;
+            this.position = startposition;
+            this.velocity = velocity;
         }
 
         /// <summary>
