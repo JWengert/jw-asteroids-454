@@ -16,16 +16,17 @@ namespace Asteroids
     /// </summary>
     public class Bullet : GameObject
     {
+        private Player owner;
         public Bullet(Game game)
             : base(game)
         {
             // TODO: Construct any child components here
         }
 
-        public Bullet(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
+        public Bullet(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds, Player owner)
             : base(game, picture, startposition, velocity, screenbounds)
         {
-
+            this.owner = owner;
         }
 
         /// <summary>
@@ -58,6 +59,11 @@ namespace Asteroids
         public override bool OutofBounds()
         {
             return base.OutofBounds();
+        }
+
+        public virtual void Draw(SpriteBatch sb)
+        {
+            sb.Draw(picture, screenbounds, Color.White);
         }
     }
 }
