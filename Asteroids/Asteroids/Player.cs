@@ -25,7 +25,6 @@ namespace Asteroids
             this.screenbounds = screenbounds;
             this.scale = 0.5f;
             this.speed = 7f;
-            this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
         }
 
         // any initialization needed  before loading game content
@@ -41,14 +40,18 @@ namespace Asteroids
             // get mouse input from player
             MouseState mouseState = Mouse.GetState();
 
-            // get the direction of the mouse by subtracting the mouse from the sprites location and normalizing the result
+            // get the direction of the mouse by subtracting the mouse from the sprites location
             Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
             Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
             Vector2 direction = spriteLocation - mouseLocation;
-            direction.Normalize();
 
-            // move the player based on mouse input
-            MovePlayer(mouseState, direction);
+            // if the sprite is too close to the mouse, don't move the player anymore
+            if (direction.Length() > 10)
+            {
+                // normalize the result and then move the player based on the input
+                direction.Normalize();
+                MovePlayer(mouseState, direction);
+            }
 
             // base update must happen afterwards
             base.Update(gameTime);
@@ -63,6 +66,7 @@ namespace Asteroids
             // forward (toward the mouse)
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
+                
                 this.position.X -= (direction.X * this.speed);
                 this.position.Y -= (direction.Y * this.speed);
             }
