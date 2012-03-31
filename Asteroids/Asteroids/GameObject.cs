@@ -24,6 +24,7 @@ namespace Asteroids
         protected Color color;
         protected Texture2D picture;
         protected Rectangle screenbounds;
+        protected SpriteEffects effects = SpriteEffects.None;
 
         public GameObject(Game game)
             : base(game)
@@ -85,14 +86,19 @@ namespace Asteroids
             //|
             //|
             //Y
+            // off left
             if (position.X < 0)
                 return true;
-            else if (position.Y < 0)
+            // off right
+            else if (position.X > Game.Window.ClientBounds.Width)
                 return true;
-            else if (position.X > screenbounds.Right)
+            // off top
+            if (position.Y < 0)
                 return true;
-            else if (position.Y > screenbounds.Bottom)
+            // off bottom
+            else if (position.Y > Game.Window.ClientBounds.Height)
                 return true;
+            // not out of bounds
             else
                 return false;
         }
@@ -102,9 +108,11 @@ namespace Asteroids
         /// </summary>
         public bool IsAlive { get { return alive; } }
 
-        public override void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(picture, position, Color.White);
+            // only draw if it's alive
+            if (IsAlive)
+                sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
     }
 }

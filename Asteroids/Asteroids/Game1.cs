@@ -40,6 +40,9 @@ namespace Asteroids
         {
             // TODO: Add your initialization logic here
 
+            // make mouse visible
+            this.IsMouseVisible = true;
+
             base.Initialize();
         }
 
