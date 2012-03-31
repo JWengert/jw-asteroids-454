@@ -12,70 +12,75 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Asteroids
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
+    // Player inherits all traits from GameObject
     public class Player : GameObject
     {
-        public Player(Game game)
-            : base(game)
-        {
-            // TODO: Construct any child components here
-        }
-
+        // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
             : base(game, picture, startposition, velocity, screenbounds)
         {
-
+            this.picture = picture;
+            this.position = startposition;
+            this.velocity = velocity;
+            this.screenbounds = screenbounds;
+            this.scale = 1;
+            this.speed = 7f;
+            this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
+        // any initialization needed  before loading game content
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
+            // base must initialize first!!!
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        // update all variables about 60 times a second. Done before draw.
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-            
-            KeyboardState state = Keyboard.GetState();
+            // get mouse input from player
+            MouseState mouseState = Mouse.GetState();
 
+            // get the direction of the mouse by subtracting the mouse from the sprites location and normalizing the result
+            Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
+            Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
+            Vector2 direction = spriteLocation - mouseLocation;
+            direction.Normalize();
 
+            // move the player based on mouse input
+            MovePlayer(mouseState, direction);
 
-            if (state.IsKeyDown(Keys.Left))
-            {
-                velocity.X = velocity.X - 1;
-            }
-            if (state.IsKeyDown(Keys.Right))
-            {
-                velocity.X = velocity.X + 1;
-            }
-            if (state.IsKeyDown(Keys.Up))
-            {
-                velocity.Y = velocity.Y - 1;
-            }
-            if (state.IsKeyDown(Keys.Down))
-            {
-                velocity.Y = velocity.Y + 1;
-            }
+            // base update must happen afterwards
             base.Update(gameTime);
         }
 
+        // check to see what mouse button is pressed down and move in the respective direction
+        private void MovePlayer(MouseState mouseState, Vector2 direction)
+        {
+            // set the angle (rotation) of the sprite
+            this.rotation = (float)Math.Atan2(direction.Y, direction.X);
+
+            // forward (toward the mouse)
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                this.position.X -= (direction.X * this.speed);
+                this.position.Y -= (direction.Y * this.speed);
+            }
+        }
+
+        // base drawing handles most the necessary drawing
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+        }
+
+        // base collision does most collision algorithms needed
         public override bool Collision(GameObject obj)
         {
             return base.Collision(obj);
         }
 
+        // base out of bounds algorithm handles most of this
         public override bool OutofBounds()
         {
             return base.OutofBounds();
