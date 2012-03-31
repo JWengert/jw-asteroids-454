@@ -99,7 +99,20 @@ namespace Asteroids
             // TODO: Add your update logic here
             foreach (GameObject obj in mygameobjects)
             {
+                if (obj.OutofBounds())
+                {
+                    if (obj is Bullet)
+                        obj.IsAlive = false;
+                    else if (obj is Player)
+                        obj.WrapAround();
+                    else if(obj is Asteroid)
+                        obj.WrapAround();
+                }
                 obj.Update(gameTime);
+                if (obj is Player)
+                {
+                    
+                }
             }
             base.Update(gameTime);
         }
