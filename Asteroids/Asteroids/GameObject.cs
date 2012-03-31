@@ -115,5 +115,12 @@ namespace Asteroids
             //if (IsAlive)
                 sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
+
+        public virtual bool CheckColl(GameObject obj2)
+        {
+            return this.bounds.Intersects(obj2.bounds);
+        }
+
+
     }
 }
