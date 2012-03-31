@@ -50,7 +50,6 @@ namespace Asteroids
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            alive = true;
             base.Initialize();
         }
 
