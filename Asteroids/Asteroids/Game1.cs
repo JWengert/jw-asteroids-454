@@ -69,9 +69,13 @@ namespace Asteroids
 
             Random randy = new Random();
             number_asteroids = randy.Next(2, 10);
+            int ast_x, ast_y, ast_vel;
             for (int i = 0; i < number_asteroids; i++)
             {
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(300, 300), new Vector2(0f)));
+                ast_x = randy.Next(50, 700);
+                ast_y = randy.Next(50, 400);
+                ast_vel = randy.Next(-2, 2);
+                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel)));
             }
 
             // TODO: use this.Content to load your game content here
@@ -117,16 +121,6 @@ namespace Asteroids
             while (players.Count != 0)
                 mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
 
-            foreach (GameObject obj1 in mygameobjects)
-            {
-                foreach (GameObject obj2 in mygameobjects)
-                {
-                    if (obj1.Collision(obj2))
-                    {
-                        obj1.OnCollide(obj2);
-                    }
-                }
-            }
             base.Update(gameTime);
         }
 

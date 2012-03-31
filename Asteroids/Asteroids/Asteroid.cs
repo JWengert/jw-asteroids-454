@@ -29,7 +29,6 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.scale = 1;
-            this.bounds.Radius = 20;
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Asteroids
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            this.rotation += 0.01f;
             base.Update(gameTime);
         }
 
@@ -69,21 +68,30 @@ namespace Asteroids
             base.Draw(gameTime, sb);
         }
 
-        public override void OnCollide(GameObject obj)
+        public override void WrapAround()
         {
-            if(obj is Bullet)
-                this.alive = false;
+            // off left
+            if (position.X + origin.X < 0)
+            {
+                position.X = Game.Window.ClientBounds.Width;
+            }
+            // off right
+            else if (position.X + origin.X > Game.Window.ClientBounds.Width)
+            {
+                position.X = 0;
+            }
+            // off top
+            if (position.Y + origin.Y < 0)
+            {
+                position.Y = Game.Window.ClientBounds.Height;
+            }
+            // off bottom
+            else if (position.Y + origin.Y > Game.Window.ClientBounds.Height)
+            {
+                position.Y = 0;
+            }
+
+            base.WrapAround();
         }
-
-        public override void OnCollide(Player player)
-        {
-
-        }
-
-        public override void OnCollide(Asteroid ast)
-        {
-
-        }
-
     }
 }
