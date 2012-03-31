@@ -41,7 +41,27 @@ namespace Asteroids
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
+            
+            KeyboardState state = Keyboard.GetState();
 
+
+
+            if (state.IsKeyDown(Keys.Left))
+            {
+                velocity.X = velocity.X - 1;
+            }
+            if (state.IsKeyDown(Keys.Right))
+            {
+                velocity.X = velocity.X + 1;
+            }
+            if (state.IsKeyDown(Keys.Up))
+            {
+                velocity.Y = velocity.Y - 1;
+            }
+            if (state.IsKeyDown(Keys.Down))
+            {
+                velocity.Y = velocity.Y + 1;
+            }
             base.Update(gameTime);
         }
 

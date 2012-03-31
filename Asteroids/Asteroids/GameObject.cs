@@ -17,14 +17,13 @@ namespace Asteroids
     /// </summary>
     public class GameObject : Microsoft.Xna.Framework.GameComponent
     {
-        private Vector2 position, velocity, origin;
-        private float speed;
+        protected Vector2 position, velocity, origin;
+        protected float speed;
 
-        private float scale, rotation, depth;
-        private Color color;
-        private SpriteBatch spritebatch;
-        private Texture2D picture;
-        private Rectangle screenbounds;
+        protected float scale, rotation, depth;
+        protected Color color;
+        protected Texture2D picture;
+        protected Rectangle screenbounds;
 
         public GameObject(Game game)
             : base(game)
@@ -97,5 +96,11 @@ namespace Asteroids
             else
                 return false;
         }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(picture, position, Color.White);
+        }
+
     }
 }
