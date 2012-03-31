@@ -19,9 +19,9 @@ namespace Asteroids
     {
         protected Vector2 position, velocity, origin;
         protected float speed;
-        protected bool alive;
+        protected bool alive = true;
         protected float scale, rotation, depth;
-        protected Color color;
+        protected Color color = Color.White;
         protected Texture2D picture;
         protected Rectangle screenbounds;
         protected SpriteEffects effects = SpriteEffects.None;
@@ -109,10 +109,10 @@ namespace Asteroids
         /// </summary>
         public bool IsAlive { get { return alive; } }
 
-        public virtual void Draw(SpriteBatch sb)
+        public virtual void Draw(GameTime gameTime, SpriteBatch sb)
         {
             // only draw if it's alive
-            if (IsAlive)
+            //if (IsAlive)
                 sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
     }

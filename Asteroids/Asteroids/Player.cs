@@ -23,7 +23,7 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.screenbounds = screenbounds;
-            this.scale = 1;
+            this.scale = 0.5f;
             this.speed = 7f;
             this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
         }
@@ -58,7 +58,7 @@ namespace Asteroids
         private void MovePlayer(MouseState mouseState, Vector2 direction)
         {
             // set the angle (rotation) of the sprite
-            this.rotation = (float)Math.Atan2(direction.Y, direction.X);
+            this.rotation = (float)Math.Atan2(direction.Y, direction.X) - (float)(Math.PI / 2);
 
             // forward (toward the mouse)
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -69,9 +69,9 @@ namespace Asteroids
         }
 
         // base drawing handles most the necessary drawing
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            base.Draw(sb);
+            base.Draw(gameTime, sb);
         }
 
         // base collision does most collision algorithms needed

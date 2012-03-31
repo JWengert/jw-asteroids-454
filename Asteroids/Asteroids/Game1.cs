@@ -60,7 +60,7 @@ namespace Asteroids
             rock2 = Content.Load<Texture2D>("asteroid2");
             bullet = Content.Load<Texture2D>("bullet");
             spaceship = Content.Load<Texture2D>("Ship");
-            outerspace=Content.Load<Texture2D>("space");
+            outerspace = Content.Load<Texture2D>("space");
             //Might need to be changed!!!
             screen = new Rectangle(0, 0, 800, 480);
 
@@ -115,7 +115,7 @@ namespace Asteroids
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, 800, 480), Color.White);
             foreach (GameObject obj in mygameobjects)
             {
-                obj.Draw(spriteBatch);
+                obj.Draw(gameTime, spriteBatch);
             }
             spriteBatch.End();
             // TODO: Add your drawing code here

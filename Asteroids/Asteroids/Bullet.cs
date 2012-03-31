@@ -61,9 +61,9 @@ namespace Asteroids
             return base.OutofBounds();
         }
 
-        public virtual void Draw(SpriteBatch sb)
+        public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            sb.Draw(picture, screenbounds, Color.White);
+            base.Draw(gameTime, sb);
         }
     }
 }
