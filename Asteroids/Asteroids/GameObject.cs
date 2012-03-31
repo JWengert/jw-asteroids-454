@@ -25,6 +25,7 @@ namespace Asteroids
         protected Texture2D picture;
         protected Rectangle screenbounds;
         protected SpriteEffects effects = SpriteEffects.None;
+        protected BoundingSphere bounds;
 
         public GameObject(Game game)
             : base(game)
