@@ -26,7 +26,7 @@ namespace Asteroids
         public Asteroid(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, Rectangle screenbounds)
             : base(game, picture, startposition, velocity, screenbounds)
         {
-
+            this.bounds.Radius = 20;
         }
 
         /// <summary>

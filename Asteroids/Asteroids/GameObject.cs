@@ -41,6 +41,9 @@ namespace Asteroids
             this.velocity = velocity;
             this.screenbounds = screenbounds;
             this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
+            this.bounds.Center.X = (this.position + this.origin).X;
+            this.bounds.Center.Y = (this.position + this.origin).Y;
+            this.bounds.Center.Z = 0;
         }
 
         /// <summary>
@@ -118,6 +121,8 @@ namespace Asteroids
 
         public virtual bool CheckColl(GameObject obj2)
         {
+            this.bounds.Center.X = (this.position + this.origin).X;
+            this.bounds.Center.Y = (this.position + this.origin).Y;
             return this.bounds.Intersects(obj2.bounds);
         }
 

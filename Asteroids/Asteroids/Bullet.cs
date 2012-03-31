@@ -27,7 +27,7 @@ namespace Asteroids
             : base(game, picture, startposition, velocity, screenbounds)
         {
             this.owner = owner;
-            
+            this.bounds.Radius = 5;
         }
 
         /// <summary>

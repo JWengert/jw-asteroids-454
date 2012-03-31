@@ -32,6 +32,7 @@ namespace Asteroids
             this.screenbounds = screenbounds;
             this.scale = 0.5f;
             this.speed = 7f;
+            this.bounds.Radius = 30;
         }
 
         // any initialization needed  before loading game content
