@@ -28,6 +28,7 @@ namespace Asteroids
         {
             this.position = startposition;
             this.velocity = velocity;
+            this.scale = 1;
             this.bounds.Radius = 20;
         }
 
@@ -67,5 +68,22 @@ namespace Asteroids
         {
             base.Draw(gameTime, sb);
         }
+
+        public override void OnCollide(GameObject obj)
+        {
+            if(obj is Bullet)
+                this.alive = false;
+        }
+
+        public override void OnCollide(Player player)
+        {
+
+        }
+
+        public override void OnCollide(Asteroid ast)
+        {
+
+        }
+
     }
 }
