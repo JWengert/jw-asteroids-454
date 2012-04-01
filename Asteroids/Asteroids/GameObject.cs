@@ -120,7 +120,7 @@ namespace Asteroids
                 sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
 
-        public void WrapAround()
+        public virtual void WrapAround()
         {
 
         }
@@ -130,14 +130,5 @@ namespace Asteroids
             
         }
 
-        public virtual void OnCollide(Player player)
-        {
-
-        }
-
-        public virtual void OnCollide(Asteroid ast)
-        {
-
-        }
     }
 }
