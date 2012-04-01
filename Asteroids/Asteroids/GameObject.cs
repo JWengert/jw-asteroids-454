@@ -43,6 +43,9 @@ namespace Asteroids
         {
             this.picture = picture;
             this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
+            this.bounds.Center.X = (this.position + this.origin).X;
+            this.bounds.Center.Y = (this.position + this.origin).Y;
+            this.bounds.Center.Z = 0;
         }
 
         /// <summary>
@@ -73,10 +76,9 @@ namespace Asteroids
         /// <returns>Reslut of comparisson</returns>
         public virtual bool Collision(GameObject obj)
         {
-            if (Math.Abs(Vector2.Distance(this.position, obj.position)) <= picture.Height)
-                return true;
-            else
-                return false;
+            this.bounds.Center.X = (this.position + this.origin).X;
+            this.bounds.Center.Y = (this.position + this.origin).Y;
+            return this.bounds.Intersects(obj.bounds);
         }
 
         /// <summary>
@@ -118,14 +120,24 @@ namespace Asteroids
                 sb.Draw(picture, position, null, color, rotation, origin, scale, effects, depth);   // use null to draw entire picture
         }
 
-        public virtual bool CheckColl(GameObject obj2)
+        public void WrapAround()
         {
-            return this.bounds.Intersects(obj2.bounds);
+
         }
 
-        public virtual void WrapAround()
+        public virtual void OnCollide(GameObject obj)
         {
             
+        }
+
+        public virtual void OnCollide(Player player)
+        {
+
+        }
+
+        public virtual void OnCollide(Asteroid ast)
+        {
+
         }
     }
 }
