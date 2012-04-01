@@ -58,6 +58,13 @@ namespace Asteroids
             return base.Collision(obj);
         }
 
+        public override void OnCollide(GameObject obj)
+        {
+            if (obj is Bullet)
+                this.alive = false;
+          base.OnCollide(obj);
+        }
+
         public override bool OutofBounds()
         {
             return base.OutofBounds();
