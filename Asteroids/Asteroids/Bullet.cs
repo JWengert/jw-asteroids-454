@@ -24,7 +24,7 @@ namespace Asteroids
             : base(game, picture)
         {
             this.owner = owner;
-            this.speed = 11f;
+            this.speed = 0.1f;
             this.scale = 3;
             CreateBullet();
         }
@@ -68,7 +68,7 @@ namespace Asteroids
 
             // get the direction of the mouse by subtracting the mouse from the sprites location
             Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
-            Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
+            Vector2 spriteLocation = new Vector2(this.owner.Position.X, this.owner.Position.Y);
             Vector2 direction = spriteLocation - mouseLocation;
 
             // set proper variables of this bullet before updating and drawing it
