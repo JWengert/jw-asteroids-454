@@ -24,9 +24,10 @@ namespace Asteroids
             : base(game, picture)
         {
             this.owner = owner;
-            this.speed = 0.1f;
-            this.scale = 3;
+            this.speed = 17f;
+            this.scale = 2;
             CreateBullet();
+            this.bounds.Radius = 5 * this.scale;
         }
 
         // any initialization needed before loading game content
@@ -70,6 +71,7 @@ namespace Asteroids
             Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
             Vector2 spriteLocation = new Vector2(this.owner.Position.X, this.owner.Position.Y);
             Vector2 direction = spriteLocation - mouseLocation;
+            direction.Normalize();
 
             // set proper variables of this bullet before updating and drawing it
             this.position.Y = this.owner.Position.Y;
