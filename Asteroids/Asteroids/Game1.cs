@@ -75,7 +75,7 @@ namespace Asteroids
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
                 ast_vel = randy.Next(-2, 2);
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel)));
+                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(0)));
 
             }
 
@@ -126,10 +126,18 @@ namespace Asteroids
             {
                 foreach (GameObject obj2 in mygameobjects)
                 {
-                    if (obj1.Collision(obj2))
+                    if (obj1 != obj2 && obj1.Collision(obj2))
                     {
                         obj1.OnCollide(obj2);
                     }
+                }
+            }
+
+            for (int i = mygameobjects.Count - 1; i >= 0; i--)
+            {
+                if (!mygameobjects[i].IsAlive)
+                {
+                    mygameobjects.RemoveAt(i);
                 }
             }
             base.Update(gameTime);

@@ -43,8 +43,8 @@ namespace Asteroids
         {
             this.picture = picture;
             this.origin = new Vector2(picture.Width / 2, picture.Height / 2);
-            this.bounds.Center.X = (this.position + this.origin).X;
-            this.bounds.Center.Y = (this.position + this.origin).Y;
+            this.bounds.Center.X = this.position.X;
+            this.bounds.Center.Y = this.position.Y;
             this.bounds.Center.Z = 0;
         }
 
@@ -76,8 +76,8 @@ namespace Asteroids
         /// <returns>Reslut of comparisson</returns>
         public virtual bool Collision(GameObject obj)
         {
-            this.bounds.Center.X = (this.position + this.origin).X;
-            this.bounds.Center.Y = (this.position + this.origin).Y;
+            this.bounds.Center.X = this.position.X;
+            this.bounds.Center.Y = this.position.Y;
             return this.bounds.Intersects(obj.bounds);
         }
 
