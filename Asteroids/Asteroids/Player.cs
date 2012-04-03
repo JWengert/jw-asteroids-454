@@ -30,7 +30,7 @@ namespace Asteroids
             this.velocity = velocity;
             this.scale = 0.5f;
             this.speed = 7f;
-            this.bounds.Radius = 30;
+            this.bounds.Radius = 50 * this.scale;
         }
 
         // any initialization needed before loading game content
@@ -51,7 +51,7 @@ namespace Asteroids
             Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
             Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
             Vector2 direction = spriteLocation - mouseLocation;
-
+            this.color = Color.White;
             // if the sprite is too close to the mouse, don't move the player anymore
             if (direction.Length() > 10)
             {
@@ -105,6 +105,15 @@ namespace Asteroids
         public override bool OutofBounds()
         {
             return base.OutofBounds();
+        }
+
+        public override void OnCollide(GameObject obj)
+        {
+            if (obj is Asteroid)
+            {
+                this.color = Color.Red;
+            }
+            base.OnCollide(obj);
         }
     }
 }

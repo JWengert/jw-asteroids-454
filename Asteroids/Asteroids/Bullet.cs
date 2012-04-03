@@ -27,7 +27,7 @@ namespace Asteroids
             this.speed = 17f;
             this.scale = 2;
             CreateBullet();
-            this.bounds.Radius = 5 * this.scale;
+            this.bounds.Radius = 10 * this.scale;
         }
 
         // any initialization needed before loading game content
@@ -48,6 +48,13 @@ namespace Asteroids
         public override bool Collision(GameObject obj)
         {
             return base.Collision(obj);
+        }
+
+        public override void OnCollide(GameObject obj)
+        {
+            if (obj is Asteroid)
+                this.alive = false;
+            base.OnCollide(obj);
         }
 
         // base out of bounds algorithm handles most of this
