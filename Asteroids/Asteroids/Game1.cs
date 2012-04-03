@@ -69,13 +69,14 @@ namespace Asteroids
 
             Random randy = new Random();
             number_asteroids = randy.Next(2, 10);
-            int ast_x, ast_y, ast_vel;
+            int ast_x, ast_y, ast_vel_x, ast_vel_y;
             for (int i = 0; i < number_asteroids; i++)
             {
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
-                ast_vel = randy.Next(-2, 2);
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(0)));
+                ast_vel_x = randy.Next(-2, 2);
+                ast_vel_y = randy.Next(-2, 2);
+                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
 

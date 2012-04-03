@@ -79,22 +79,22 @@ namespace Asteroids
         public override void WrapAround()
         {
             // off left
-            if (position.X + origin.X < 0)
+            if (2*position.X < 0)
             {
                 position.X = Game.Window.ClientBounds.Width;
             }
             // off right
-            else if (position.X + origin.X > Game.Window.ClientBounds.Width)
+            else if (position.X > Game.Window.ClientBounds.Width)
             {
                 position.X = 0;
             }
             // off top
-            if (position.Y + origin.Y < 0)
+            if (2*position.Y < 0)
             {
                 position.Y = Game.Window.ClientBounds.Height;
             }
             // off bottom
-            else if (position.Y + origin.Y > Game.Window.ClientBounds.Height)
+            else if (position.Y > Game.Window.ClientBounds.Height)
             {
                 position.Y = 0;
             }
