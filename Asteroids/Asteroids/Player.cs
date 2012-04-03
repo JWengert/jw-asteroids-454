@@ -21,16 +21,24 @@ namespace Asteroids
         // variables to spread out the time between each bullet
         private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(250);
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
+        private int shields;
+        private static int maxshields = 3;
+        private int lives = 3;
+        private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
+        private TimeSpan respawnElapsed = TimeSpan.Zero;
+        private Vector2 start_pos;
 
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
             : base(game, picture)
         {
             this.position = startposition;
+            start_pos = startposition;
             this.velocity = velocity;
             this.scale = 0.5f;
             this.speed = 7f;
             this.bounds.Radius = 50 * this.scale;
+            shields = maxshields;
         }
 
         // any initialization needed before loading game content
@@ -43,34 +51,46 @@ namespace Asteroids
         // update all variables about 60 times a second. Done before draw.
         public override void Update(GameTime gameTime)
         {
-            // get mouse/keyboard input from player
-            MouseState mouseState = Mouse.GetState();
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            // get the direction of the mouse by subtracting the mouse from the sprites location
-            Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
-            Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
-            Vector2 direction = spriteLocation - mouseLocation;
-            this.color = Color.White;
-            // if the sprite is too close to the mouse, don't move the player anymore
-            if (direction.Length() > 10)
+            if (this.Enabled)
             {
-                // normalize the result and then move the player based on the input
-                direction.Normalize();
-                MovePlayer(mouseState, direction);
-            }
+                // get mouse/keyboard input from player
+                MouseState mouseState = Mouse.GetState();
+                KeyboardState keyboardState = Keyboard.GetState();
 
-            // update the elapsed time since a bullet was shot indicate to shoot one if necessary
-            timeBulleElapsed += gameTime.ElapsedGameTime;
-            if (timeBulleElapsed > timeNewBullet &&
-                (mouseState.RightButton == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space)))
-            {
-                timeBulleElapsed = TimeSpan.Zero;
-                createBullet = true;
+                // get the direction of the mouse by subtracting the mouse from the sprites location
+                Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
+                Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
+                Vector2 direction = spriteLocation - mouseLocation;
+                this.color = Color.White;
+                // if the sprite is too close to the mouse, don't move the player anymore
+                if (direction.Length() > 10)
+                {
+                    // normalize the result and then move the player based on the input
+                    direction.Normalize();
+                    MovePlayer(mouseState, direction);
+                }
+
+                // update the elapsed time since a bullet was shot indicate to shoot one if necessary
+                timeBulleElapsed += gameTime.ElapsedGameTime;
+                if (timeBulleElapsed > timeNewBullet &&
+                    (mouseState.RightButton == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space)))
+                {
+                    timeBulleElapsed = TimeSpan.Zero;
+                    createBullet = true;
+                }
+                else
+                    createBullet = false;
+
             }
             else
-                createBullet = false;
-
+            {
+                respawnElapsed += gameTime.ElapsedGameTime;
+                if (respawnElapsed >= respawnTimer)
+                {
+                    if (lives > 0)
+                        this.Respawn();
+                }
+            }
             // base update must happen afterwards
             base.Update(gameTime);
         }
@@ -87,6 +107,20 @@ namespace Asteroids
                 this.position.X -= (direction.X * this.speed);
                 this.position.Y -= (direction.Y * this.speed);
             }
+        }
+
+        public void Die()
+        {
+            this.Enabled = false;
+            respawnElapsed = TimeSpan.Zero;
+            this.position = start_pos;
+            this.lives--;
+        }
+
+        public void Respawn()
+        {
+            this.Enabled = true;
+            this.shields = maxshields;
         }
 
         // base drawing handles most the necessary drawing
@@ -111,7 +145,17 @@ namespace Asteroids
         {
             if (obj is Asteroid)
             {
-                this.color = Color.Red;
+                this.Die();
+            }
+            if (obj is Bullet)
+            {
+                if (((Bullet)obj).Owner != this)
+                {
+                    shields--;
+                    obj.IsAlive = false;
+                    if(shields <= 0)
+                        this.Die();
+                }
             }
             base.OnCollide(obj);
         }

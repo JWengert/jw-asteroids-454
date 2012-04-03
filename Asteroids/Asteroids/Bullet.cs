@@ -73,6 +73,8 @@ namespace Asteroids
             base.Draw(gameTime, sb);
         }
 
+        public Player Owner { get { return owner; } set { ;} }
+
         private void CreateBullet()
         {
             // get mouse/keyboard input from player
