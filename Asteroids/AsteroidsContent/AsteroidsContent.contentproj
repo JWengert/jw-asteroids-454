@@ -107,13 +107,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fire2.wma">
-      <Name>fire2</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="fire4.wav">
       <Name>fire4</Name>
       <Importer>WavImporter</Importer>

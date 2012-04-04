@@ -17,6 +17,7 @@ namespace Asteroids
     /// </summary>
     public class Asteroid : GameObject
     {
+        private int hits;
         public Asteroid(Game game)
             : base(game)
         {
@@ -30,6 +31,7 @@ namespace Asteroids
             this.velocity = velocity;
             this.scale = 1;
             this.bounds.Radius = 20 * scale;
+            hits = 2;
         }
 
         /// <summary>
@@ -62,7 +64,12 @@ namespace Asteroids
         public override void OnCollide(GameObject obj)
         {
             if (obj is Bullet)
-                this.IsAlive = false;
+            {
+                if (hits > 0)
+                    hits--;
+                else
+                    this.IsAlive = false;
+            }
             base.OnCollide(obj);
         }
 
@@ -78,26 +85,7 @@ namespace Asteroids
 
         public override void WrapAround()
         {
-            // off left
-            if (2*position.X < 0)
-            {
-                position.X = Game.Window.ClientBounds.Width;
-            }
-            // off right
-            else if (position.X > Game.Window.ClientBounds.Width)
-            {
-                position.X = 0;
-            }
-            // off top
-            if (2*position.Y < 0)
-            {
-                position.Y = Game.Window.ClientBounds.Height;
-            }
-            // off bottom
-            else if (position.Y > Game.Window.ClientBounds.Height)
-            {
-                position.Y = 0;
-            }
+            
 
             base.WrapAround();
         }
