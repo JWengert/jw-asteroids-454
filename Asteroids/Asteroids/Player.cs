@@ -30,6 +30,8 @@ namespace Asteroids
         private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
         private TimeSpan mercytime = TimeSpan.Zero;
 
+        public int Shields { get { return shields; } set { ;} }
+
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
             : base(game, picture)
