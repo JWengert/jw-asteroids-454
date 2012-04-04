@@ -122,7 +122,26 @@ namespace Asteroids
 
         public virtual void WrapAround()
         {
-
+            // off left
+            if (2 * position.X < 0)
+            {
+                position.X = Game.Window.ClientBounds.Width;
+            }
+            // off right
+            else if (position.X > Game.Window.ClientBounds.Width)
+            {
+                position.X = 0;
+            }
+            // off top
+            if (2 * position.Y < 0)
+            {
+                position.Y = Game.Window.ClientBounds.Height;
+            }
+            // off bottom
+            else if (position.Y > Game.Window.ClientBounds.Height)
+            {
+                position.Y = 0;
+            }
         }
 
         public virtual void OnCollide(GameObject obj)
