@@ -126,6 +126,8 @@ namespace Asteroids
             this.Enabled = false;
             respawnElapsed = TimeSpan.Zero;
             this.position = start_pos;
+            isMoving = false;
+            createBullet = false;
             this.lives--;
         }
 
