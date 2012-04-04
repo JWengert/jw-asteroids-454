@@ -66,7 +66,7 @@ namespace Asteroids
             hp_full = Content.Load<Texture2D>("shield_full");
 
             // load the sounds
-            tempSound = Content.Load<SoundEffect>("fire2");
+            tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("explosion");
             explosionSound = tempSound.CreateInstance();
