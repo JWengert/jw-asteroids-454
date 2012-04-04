@@ -17,9 +17,10 @@ namespace Asteroids
     {
         // public variables
         public static bool createBullet = false;
+        public static bool isMoving = false;
 
         // variables to spread out the time between each bullet
-        private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(250);
+        private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(550);
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields;
         private static int maxshields = 3;
@@ -69,6 +70,8 @@ namespace Asteroids
                     direction.Normalize();
                     MovePlayer(mouseState, direction);
                 }
+                else
+                    isMoving = false;
 
                 // update the elapsed time since a bullet was shot indicate to shoot one if necessary
                 timeBulleElapsed += gameTime.ElapsedGameTime;
@@ -106,7 +109,10 @@ namespace Asteroids
             {
                 this.position.X -= (direction.X * this.speed);
                 this.position.Y -= (direction.Y * this.speed);
+                isMoving = true;
             }
+            else
+                isMoving = false;
         }
 
         public void Die()
