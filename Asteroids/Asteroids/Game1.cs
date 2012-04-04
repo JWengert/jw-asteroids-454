@@ -24,7 +24,7 @@ namespace Asteroids
         private Stack<Player> players = new Stack<Player>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full;
         private SoundEffect tempSound;
-        private SoundEffectInstance engineSound, bulletSound, explosionSound, deathSound;
+        private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
 
         public Game1()
@@ -66,7 +66,7 @@ namespace Asteroids
             hp_full = Content.Load<Texture2D>("shield_full");
 
             // load the sounds
-            tempSound = Content.Load<SoundEffect>("fire2");
+            tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("explosion");
             explosionSound = tempSound.CreateInstance();
@@ -74,6 +74,12 @@ namespace Asteroids
             deathSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("woosh");
             engineSound = tempSound.CreateInstance();
+            tempSound = Content.Load<SoundEffect>("doctorWho2");
+            backgroundSound = tempSound.CreateInstance();
+
+            // start the background music
+            backgroundSound.Play();
+            backgroundSound.Volume = 0.1f;
 
             // add a player
             mygameobjects.Add(new Player(this, spaceship, new Vector2(100, 100), new Vector2(0)));
@@ -115,6 +121,10 @@ namespace Asteroids
             // allows the game to exit
             if (keyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            // check to see if the background music is done playing and replay it
+            if (backgroundSound.State != SoundState.Playing)
+                backgroundSound.Play();
 
             // go through every game object created
             foreach (GameObject obj in mygameobjects)
