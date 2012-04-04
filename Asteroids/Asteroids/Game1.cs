@@ -66,7 +66,7 @@ namespace Asteroids
             hp_full = Content.Load<Texture2D>("shield_full");
 
             // load the sounds
-            tempSound = Content.Load<SoundEffect>("fire");
+            tempSound = Content.Load<SoundEffect>("fire2");
             bulletSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("explosion");
             explosionSound = tempSound.CreateInstance();
@@ -137,13 +137,22 @@ namespace Asteroids
 
                 // if it's a player, check if a bullet should be created or not and add it to the stack
                 if (obj is Player)
+                {
                     if (Player.createBullet)
                         players.Push((Player)obj);
+                    if (Player.isMoving && engineSound.State != SoundState.Playing)
+                        engineSound.Play();
+                    if (!Player.isMoving)
+                        engineSound.Stop();
+                }
             }
             
             // create a bullet for each player who fired one
             while (players.Count != 0)
+            {
                 mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
+                bulletSound.Play();
+            }
 
             // check for any collisions between objects
             foreach (GameObject obj1 in mygameobjects)
@@ -177,11 +186,7 @@ namespace Asteroids
 
             // call the draw method for each object
             foreach (GameObject obj in mygameobjects)
-            {
                 obj.Draw(gameTime, spriteBatch);
-                if (obj is Bullet)
-                    bulletSound.Play();
-            }
 
             // end our spritebatch
             spriteBatch.End();
