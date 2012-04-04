@@ -24,10 +24,12 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields;
         private static int maxshields = 3;
-        private int lives = 3;
+        private int lives = 1000000;
         private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
         private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
+        private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
+        private TimeSpan mercytime = TimeSpan.Zero;
 
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
@@ -40,6 +42,8 @@ namespace Asteroids
             this.speed = 7f;
             this.bounds.Radius = 50 * this.scale;
             shields = maxshields;
+            mercytime = TimeSpan.Zero;
+
         }
 
         // any initialization needed before loading game content
@@ -83,7 +87,7 @@ namespace Asteroids
                 }
                 else
                     createBullet = false;
-
+                mercytime += gameTime.ElapsedGameTime;
             }
             else
             {
@@ -127,6 +131,7 @@ namespace Asteroids
         {
             this.Enabled = true;
             this.shields = maxshields;
+            mercytime = TimeSpan.Zero;
         }
 
         // base drawing handles most the necessary drawing
@@ -149,18 +154,22 @@ namespace Asteroids
 
         public override void OnCollide(GameObject obj)
         {
-            if (obj is Asteroid)
+            if (mercytime > mercyLength)
             {
-                this.Die();
-            }
-            if (obj is Bullet)
-            {
-                if (((Bullet)obj).Owner != this)
+                if (obj is Asteroid)
                 {
-                    shields--;
-                    obj.IsAlive = false;
-                    if(shields <= 0)
-                        this.Die();
+                    this.Die();
+                }
+                if (obj is Bullet)
+                {
+                    if (((Bullet)obj).Owner != this)
+                    {
+                        shields--;
+                        obj.IsAlive = false;
+                        if (shields <= 0)
+                            this.Die();
+                        mercytime = TimeSpan.Zero;
+                    }
                 }
             }
             base.OnCollide(obj);
