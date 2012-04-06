@@ -12,11 +12,15 @@ using System.IO;
 
 namespace Asteroids
 {
+    
     /// <summary>
     /// This is the main type for your game
     /// </summary>
+    ///
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public static Random randy = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -173,7 +177,7 @@ namespace Asteroids
             // check for any collisions between objects
             foreach (GameObject obj1 in mygameobjects)
                 foreach (GameObject obj2 in mygameobjects)
-                    if (obj1 != obj2 && obj1.Collision(obj2))
+                    if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
                         obj1.OnCollide(obj2);
 
             // now delete any game objects that are no longer 'alive'

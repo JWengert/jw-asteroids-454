@@ -95,7 +95,10 @@ namespace Asteroids
                 mercytime += gameTime.ElapsedGameTime;
                 if (mercytime > mercyLength)
                 {
-                    this.color = Color.White;
+                    if (shields == 1 && blink++ % 8 > 3)
+                        this.color = Color.PaleVioletRed;
+                    else
+                        this.color = Color.White;
                 }
                 else
                 {
@@ -104,6 +107,7 @@ namespace Asteroids
                     else
                         this.color = Color.White;
                 }
+
             }
             else
             {
