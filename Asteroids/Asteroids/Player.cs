@@ -24,7 +24,7 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields;
         private static int maxshields = 3;
-        private int lives = 1000000;
+        private int lives = 10;
         private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
         private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
@@ -32,6 +32,7 @@ namespace Asteroids
         private TimeSpan mercytime = TimeSpan.Zero;
 
         public int Shields { get { return shields; } set { ;} }
+        public int Lives { get { return lives; } set { ;} }
 
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
