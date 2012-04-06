@@ -18,7 +18,7 @@ namespace Asteroids
     public class livesdisplay : guiitem
     {
         private Texture2D icon;
-        private Vector2 offset;
+        private Vector2 offset, offset2;
        
         private Player player;
         public livesdisplay(Game game)
@@ -36,6 +36,7 @@ namespace Asteroids
             this.icon = lives;
             this.player = player;
             offset = new Vector2(icon.Width, 0);
+            offset2 = new Vector2(0, icon.Height);
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -62,7 +63,7 @@ namespace Asteroids
         {
             for (int i = 0; i < player.Lives; i++)
             {
-                    sb.Draw(icon, position + i * offset, Color.White);
+                    sb.Draw(icon, position + (i%3) * offset + (i/3)*offset2, Color.White);
             }
         }
     }

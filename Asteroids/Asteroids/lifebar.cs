@@ -18,7 +18,8 @@ namespace Asteroids
     public class lifebar : guiitem
     {
         private Texture2D full, empty;
-        private Vector2[] pos;
+
+        private Vector2 offset;
         private Player player;
         private SpriteFont score;
         public lifebar(Game game)
@@ -37,11 +38,8 @@ namespace Asteroids
             this.empty = empty;
             this.player = player;
             this.score = score;
-            pos = new Vector2[4];
-            pos[0] = position;
-            pos[1] = position + new Vector2(0, -full.Height);
-            pos[2] = pos[1] + new Vector2(0, -full.Height);
-            pos[3] = pos[2] + new Vector2(0, 3 * full.Height);
+            offset = new Vector2(0, -full.Height);
+
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -67,14 +65,14 @@ namespace Asteroids
 
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < player.MaxShields; i++)
             {
                 if (player.Shields > i)
-                    sb.Draw(full, pos[i], Color.White);
+                    sb.Draw(full, position + offset * i, Color.White);
                 else
-                    sb.Draw(empty, pos[i], Color.White);
+                    sb.Draw(empty, position + offset * i, Color.White);
             }
-            sb.DrawString(score, "Score = " + this.player.Score, pos[3], Color.White);
+            sb.DrawString(score, "Score = " + this.player.Score, position - offset, Color.White);
         }
             
     }
