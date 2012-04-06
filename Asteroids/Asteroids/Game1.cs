@@ -23,10 +23,11 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
-        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon;
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
+        private SpriteFont score;
 
         public Game1()
         {
@@ -56,6 +57,7 @@ namespace Asteroids
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            score = Content.Load<SpriteFont>("Score");
 
             // load the images
             rock1 = Content.Load<Texture2D>("asteroid1");
@@ -65,7 +67,7 @@ namespace Asteroids
             outerspace = Content.Load<Texture2D>("space");
             hp_empty = Content.Load<Texture2D>("shield_empty");
             hp_full = Content.Load<Texture2D>("shield_full");
-            livesicon = Content.Load<Texture2D>("Shipicon");
+
             // load the sounds
             tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
@@ -99,8 +101,7 @@ namespace Asteroids
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
-            hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty));
-            hud.Add(new livesdisplay(this, p1, 1, livesicon));
+            hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
         }
 
         /// <summary>

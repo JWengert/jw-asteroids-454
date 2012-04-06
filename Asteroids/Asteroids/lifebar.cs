@@ -20,6 +20,7 @@ namespace Asteroids
         private Texture2D full, empty;
         private Vector2[] pos;
         private Player player;
+        private SpriteFont score;
         public lifebar(Game game)
             : base(game)
         {
@@ -27,7 +28,7 @@ namespace Asteroids
             // TODO: Construct any child components here
         }
 
-        public lifebar(Game game, Player player, int playernum, Texture2D full, Texture2D empty)
+        public lifebar(Game game, Player player, int playernum, Texture2D full, Texture2D empty, SpriteFont score)
             : base(game)
         {
             if (playernum == 1)
@@ -35,10 +36,12 @@ namespace Asteroids
             this.full = full;
             this.empty = empty;
             this.player = player;
-            pos = new Vector2[3];
+            this.score = score;
+            pos = new Vector2[4];
             pos[0] = position;
             pos[1] = position + new Vector2(0, -full.Height);
             pos[2] = pos[1] + new Vector2(0, -full.Height);
+            pos[3] = pos[2] + new Vector2(0, 3 * full.Height);
         }
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -71,6 +74,7 @@ namespace Asteroids
                 else
                     sb.Draw(empty, pos[i], Color.White);
             }
+            sb.DrawString(score, "Score = " + this.player.Score, pos[3], Color.White);
         }
             
     }

@@ -55,6 +55,7 @@ namespace Asteroids
             if (obj is Asteroid)
             {
                 this.alive = false;
+                this.owner.Score++;
                 obj.OnCollide(this);
             }
                 
