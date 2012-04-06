@@ -24,17 +24,15 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields, points;
         private static int maxshields = 3;
-        private int lives = 6;
-        private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
-        private TimeSpan respawnElapsed = TimeSpan.Zero;
+        private int lives = 10;
+        //private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
+        //private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
-        private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
-        private TimeSpan mercytime = TimeSpan.Zero;
-        private int blink;
+        //private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
+        //private TimeSpan mercytime = TimeSpan.Zero;
 
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
-        public int MaxShields { get { return maxshields; } set { ;} }
 
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
@@ -47,8 +45,8 @@ namespace Asteroids
             this.speed = 7f;
             this.bounds.Radius = 50 * this.scale;
             shields = maxshields;
-            mercytime = TimeSpan.Zero;
-            blink = 0;
+            respawnTimer = TimeSpan.FromMilliseconds(1000);
+            mercyLength = TimeSpan.FromMilliseconds(1000);
         }
 
         // any initialization needed before loading game content
@@ -94,19 +92,9 @@ namespace Asteroids
                     createBullet = false;
                 mercytime += gameTime.ElapsedGameTime;
                 if (mercytime > mercyLength)
-                {
-                    if (shields == 1 && blink++ % 8 > 3)
-                        this.color = Color.PaleVioletRed;
-                    else
-                        this.color = Color.White;
-                }
+                    this.color = Color.White;
                 else
-                {
-                    if (blink++ % 8 > 3)
-                        this.color = Color.Transparent;
-                    else
-                        this.color = Color.White;
-                }
+                    this.color = Color.CornflowerBlue;
 
             }
             else
@@ -139,7 +127,7 @@ namespace Asteroids
                 isMoving = false;
         }
 
-        public void Die()
+        public override void Die()
         {
             this.Enabled = false;
             respawnElapsed = TimeSpan.Zero;
@@ -149,11 +137,12 @@ namespace Asteroids
             this.lives--;
         }
 
-        public void Respawn()
+        public override void Respawn()
         {
             this.Enabled = true;
             this.shields = maxshields;
             mercytime = TimeSpan.Zero;
+            
         }
 
         // base drawing handles most the necessary drawing
