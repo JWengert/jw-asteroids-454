@@ -110,6 +110,8 @@
     <Compile Include="Asteroid.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="guiitem.cs" />
+    <Compile Include="lifebar.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
