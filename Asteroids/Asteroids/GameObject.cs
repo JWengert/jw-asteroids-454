@@ -25,6 +25,9 @@ namespace Asteroids
         protected Texture2D picture;
         protected SpriteEffects effects = SpriteEffects.None;
         protected BoundingSphere bounds;
+        protected TimeSpan respawnTimer, respawnElapsed = TimeSpan.Zero;
+        protected TimeSpan mercyLength, mercytime = TimeSpan.Zero;
+
 
         public Vector2 Position 
         { 
@@ -149,5 +152,12 @@ namespace Asteroids
             
         }
 
+        public virtual void Die()
+        {
+        }
+
+        public virtual void Respawn()
+        {
+        }
     }
 }

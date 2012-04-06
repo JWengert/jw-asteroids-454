@@ -25,11 +25,11 @@ namespace Asteroids
         private int shields, points;
         private static int maxshields = 3;
         private int lives = 10;
-        private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
-        private TimeSpan respawnElapsed = TimeSpan.Zero;
+        //private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
+        //private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
-        private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
-        private TimeSpan mercytime = TimeSpan.Zero;
+        //private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
+        //private TimeSpan mercytime = TimeSpan.Zero;
 
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
@@ -45,8 +45,8 @@ namespace Asteroids
             this.speed = 7f;
             this.bounds.Radius = 50 * this.scale;
             shields = maxshields;
-            mercytime = TimeSpan.Zero;
-
+            respawnTimer = TimeSpan.FromMilliseconds(1000);
+            mercyLength = TimeSpan.FromMilliseconds(1000);
         }
 
         // any initialization needed before loading game content
@@ -127,7 +127,7 @@ namespace Asteroids
                 isMoving = false;
         }
 
-        public void Die()
+        public override void Die()
         {
             this.Enabled = false;
             respawnElapsed = TimeSpan.Zero;
@@ -137,11 +137,12 @@ namespace Asteroids
             this.lives--;
         }
 
-        public void Respawn()
+        public override void Respawn()
         {
             this.Enabled = true;
             this.shields = maxshields;
             mercytime = TimeSpan.Zero;
+            
         }
 
         // base drawing handles most the necessary drawing

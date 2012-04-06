@@ -17,7 +17,10 @@ namespace Asteroids
     /// </summary>
     public class Asteroid : GameObject
     {
-        private int hits;
+        private int hits, allowed_hits = 2;
+        private int pause;
+        private TimeSpan timer;
+
         public Asteroid(Game game)
             : base(game)
         {
@@ -31,7 +34,10 @@ namespace Asteroids
             this.velocity = velocity;
             this.scale = 1;
             this.bounds.Radius = 20 * scale;
-            hits = 2;
+            pause = 0;
+            timer = new TimeSpan();
+            hits = allowed_hits;
+            respawnTimer = TimeSpan.FromMilliseconds(2000);
         }
 
         /// <summary>
@@ -51,8 +57,29 @@ namespace Asteroids
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-            this.rotation += 0.01f;
+            if (this.Enabled)
+            {
+                // TODO: Add your update code here
+                this.rotation += 0.01f;
+            }
+            else
+            {
+                respawnElapsed += gameTime.ElapsedGameTime;
+                if (respawnElapsed >= respawnTimer)
+                {
+                    this.hits = allowed_hits;
+                    this.Respawn();
+                    this.respawnElapsed = TimeSpan.Zero;
+                    int x, y;
+                    x = Game1.randy.Next();
+                    y = Game1.randy.Next();
+                    this.position = new Vector2(x, y);
+                    x = Game1.randy.Next(-2, 2);
+                    y = Game1.randy.Next(-2, 2);
+                    this.velocity = new Vector2(x, y);
+                    WrapAround();
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -68,7 +95,10 @@ namespace Asteroids
                 if (hits > 0)
                     hits--;
                 else
-                    this.IsAlive = false;
+                {
+                    pause = timer.Milliseconds;
+                    this.Enabled = false;
+                }
             }
             base.OnCollide(obj);
         }
@@ -88,6 +118,16 @@ namespace Asteroids
             
 
             base.WrapAround();
+        }
+
+        public override void Die()
+        {
+            base.Die();
+        }
+
+        public override void Respawn()
+        {
+            this.Enabled = true;
         }
     }
 }

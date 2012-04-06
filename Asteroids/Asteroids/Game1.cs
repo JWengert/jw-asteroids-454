@@ -19,7 +19,7 @@ namespace Asteroids
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        public static Random randy = new Random();
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
@@ -89,7 +89,7 @@ namespace Asteroids
                 mygameobjects.Add(p1);
 
             // create a random number of asteroids onto the screen
-            Random randy = new Random();
+            
             number_asteroids = randy.Next(2, 10);
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
             for (int i = 0; i < number_asteroids; i++)
