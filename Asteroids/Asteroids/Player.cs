@@ -24,16 +24,17 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields, points;
         private static int maxshields = 3;
-        private int lives = 10;
+        private int lives = 5;
         //private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
         //private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
+        int blink = 0;
         //private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
         //private TimeSpan mercytime = TimeSpan.Zero;
 
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
-
+        public int MaxShields { get { return maxshields; } set { ;} }
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
             : base(game, picture)
@@ -94,8 +95,12 @@ namespace Asteroids
                 if (mercytime > mercyLength)
                     this.color = Color.White;
                 else
-                    this.color = Color.CornflowerBlue;
-
+                {
+                    if (blink++ % 8 > 3)
+                        this.color = Color.Transparent;
+                    else
+                        this.color = Color.White;
+                }
             }
             else
             {

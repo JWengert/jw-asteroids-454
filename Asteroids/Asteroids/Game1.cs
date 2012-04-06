@@ -23,7 +23,6 @@ namespace Asteroids
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static Random randy = new Random();
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
