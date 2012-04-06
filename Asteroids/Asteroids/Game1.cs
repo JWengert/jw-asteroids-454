@@ -27,6 +27,7 @@ namespace Asteroids
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
+        private SpriteFont score;
 
         public Game1()
         {
@@ -56,6 +57,7 @@ namespace Asteroids
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            score = Content.Load<SpriteFont>("Score");
 
             // load the images
             rock1 = Content.Load<Texture2D>("asteroid1");
@@ -99,7 +101,7 @@ namespace Asteroids
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
-            hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty));
+            hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
         }
 
         /// <summary>

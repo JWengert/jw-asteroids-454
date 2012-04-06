@@ -22,7 +22,7 @@ namespace Asteroids
         // variables to spread out the time between each bullet
         private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(550);
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
-        private int shields;
+        private int shields, points;
         private static int maxshields = 3;
         private int lives = 1000000;
         private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
@@ -186,5 +186,7 @@ namespace Asteroids
             }
             base.OnCollide(obj);
         }
+
+        public int Score { get { return points; } set { points = value; } }
     }
 }
