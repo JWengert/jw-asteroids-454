@@ -30,6 +30,7 @@ namespace Asteroids
         private Vector2 start_pos;
         private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
         private TimeSpan mercytime = TimeSpan.Zero;
+        private int blink;
 
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
@@ -47,7 +48,7 @@ namespace Asteroids
             this.bounds.Radius = 50 * this.scale;
             shields = maxshields;
             mercytime = TimeSpan.Zero;
-
+            blink = 0;
         }
 
         // any initialization needed before loading game content
@@ -93,10 +94,16 @@ namespace Asteroids
                     createBullet = false;
                 mercytime += gameTime.ElapsedGameTime;
                 if (mercytime > mercyLength)
+                {
                     this.color = Color.White;
+                }
                 else
-                    this.color = Color.CornflowerBlue;
-
+                {
+                    if (blink++ % 8 > 3)
+                        this.color = Color.Transparent;
+                    else
+                        this.color = Color.White;
+                }
             }
             else
             {
