@@ -68,7 +68,7 @@ namespace Asteroids
                 Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
                 Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
                 Vector2 direction = spriteLocation - mouseLocation;
-                this.color = Color.White;
+
                 // if the sprite is too close to the mouse, don't move the player anymore
                 if (direction.Length() > 10)
                 {
@@ -90,6 +90,11 @@ namespace Asteroids
                 else
                     createBullet = false;
                 mercytime += gameTime.ElapsedGameTime;
+                if (mercytime > mercyLength)
+                    this.color = Color.White;
+                else
+                    this.color = Color.CornflowerBlue;
+
             }
             else
             {
@@ -162,7 +167,10 @@ namespace Asteroids
             {
                 if (obj is Asteroid)
                 {
-                    this.Die();
+                    shields--;
+                    if (shields <= 0)
+                        this.Die();
+                    mercytime = TimeSpan.Zero;
                 }
                 if (obj is Bullet)
                 {

@@ -21,6 +21,7 @@ namespace Asteroids
         SpriteBatch spriteBatch;
 
         private List<GameObject> mygameobjects = new List<GameObject>();
+        private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full;
         private SoundEffect tempSound;
@@ -82,7 +83,8 @@ namespace Asteroids
             backgroundSound.Volume = 0.1f;
 
             // add a player
-            mygameobjects.Add(new Player(this, spaceship, new Vector2(100, 100), new Vector2(0)));
+            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
+                mygameobjects.Add(p1);
 
             // create a random number of asteroids onto the screen
             Random randy = new Random();
@@ -97,6 +99,7 @@ namespace Asteroids
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
+            hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty));
         }
 
         /// <summary>
@@ -198,6 +201,8 @@ namespace Asteroids
             foreach (GameObject obj in mygameobjects)
                 obj.Draw(gameTime, spriteBatch);
 
+            foreach (guiitem gui in hud)
+                gui.Draw(gameTime, spriteBatch);
             // end our spritebatch
             spriteBatch.End();
 
