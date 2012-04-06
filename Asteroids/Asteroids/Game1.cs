@@ -23,7 +23,7 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
-        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full;
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
@@ -67,7 +67,7 @@ namespace Asteroids
             outerspace = Content.Load<Texture2D>("space");
             hp_empty = Content.Load<Texture2D>("shield_empty");
             hp_full = Content.Load<Texture2D>("shield_full");
-
+            livesicon = Content.Load<Texture2D>("Shipicon");
             // load the sounds
             tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
@@ -102,6 +102,7 @@ namespace Asteroids
 
             }
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
+            hud.Add(new livesdisplay(this, p1, 1, livesicon));
         }
 
         /// <summary>
