@@ -218,6 +218,10 @@ namespace Asteroids
             // only update the all objects if we are in playing mode
             if (currentGameState == GameState.Play)
             {
+                // update all the network gamers
+                foreach (LocalNetworkGamer gamer in networkSession.LocalGamers)
+                    UpdateNetworkGamers(gamer, gameTime);
+
                 // go through every game object created
                 foreach (GameObject obj in mygameobjects)
                 {
@@ -276,10 +280,22 @@ namespace Asteroids
                 for (int i = mygameobjects.Count - 1; i >= 0; i--)
                     if (!mygameobjects[i].IsAlive)
                         mygameobjects.RemoveAt(i);
+
+                // send data across network
+                SendNetworkData(gameTime);
             }
 
             // update the base
             base.Update(gameTime);
+        }
+
+        // code to update a single network gamer
+        private void UpdateNetworkGamers(LocalNetworkGamer gamer, GameTime gameTime)
+        {
+            // first retrieve the network data
+            ReceiveNetworkData(gamer, gameTime);
+
+
         }
 
         /// <summary>
