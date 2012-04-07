@@ -18,12 +18,14 @@ namespace NetworkConnect
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        NetworkSession networkSession;
+        public NetworkSession networkSession;
         AvailableNetworkSessionCollection availableSessions;
         int selectedSessionIndex;
         PacketReader packetReader = new PacketReader();
         PacketWriter packetWriter = new PacketWriter();
         test form;
+        public IAsyncResult result;
+        public IAsyncResult finder;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,7 +34,7 @@ namespace NetworkConnect
             Components.Add(new GamerServicesComponent(this));
             form = new test(this);
             form.Show();
-            
+            //Components[0].Initialize();
             // Respond to the SignedInGamer event
             SignedInGamer.SignedIn +=
                 new EventHandler<SignedInEventArgs>(SignedInGamer_SignedIn);
@@ -83,8 +85,16 @@ namespace NetworkConnect
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Allows the game to exit
+            // gets current keyboard state
+            KeyboardState keyboardState = Keyboard.GetState();
 
-                if (!Guide.IsVisible)
+            // allows the game to exit
+            if (keyboardState.IsKeyDown(Keys.Escape))
+                this.Exit();
+
+            base.Update(gameTime);
+            /*if (!Guide.IsVisible)
                 {
                     foreach (SignedInGamer signedInGamer in
                         SignedInGamer.SignedInGamers)
@@ -92,7 +102,7 @@ namespace NetworkConnect
                         Asteroids.Player player = signedInGamer.Tag as Asteroids.Player;
 
 
-                        /*                    if (networkSession != null)
+                                           if (networkSession != null)
                                             {
                                                 if (networkSession.SessionState ==
                                                     NetworkSessionState.Lobby)
@@ -109,18 +119,12 @@ namespace NetworkConnect
                                                 HandleTitleScreenInput();
                                             }
                                             player.lastState = currentState;
-                        */
+                       
                     }
-                }
-                base.Update(gameTime);
-                // Allows the game to exit
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                    this.Exit();
+                
+     
 
-                // TODO: Add your update logic here
-
-                base.Update(gameTime);
-            
+*/
         }
 
         /// <summary>
@@ -134,6 +138,28 @@ namespace NetworkConnect
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        public void HostGame()
+        {
+            NetworkSessionProperties props = new NetworkSessionProperties();
+            result = NetworkSession.BeginCreate(NetworkSessionType.SystemLink, 1, 3, 0, props, new AsyncCallback(GotResult), null);
+
+        }
+
+        public void GotResult(IAsyncResult result)
+        {
+            form.CreateSuccess();
+        }
+        public void FindGames()
+        {
+            NetworkSessionProperties props = new NetworkSessionProperties();
+            finder = NetworkSession.BeginFind(NetworkSessionType.SystemLink, 1, props, new AsyncCallback(FoundSessions), null);
+
+        }
+        public void FoundSessions(IAsyncResult result)
+        {
+            form.PopulateList(result);
         }
     }
 }

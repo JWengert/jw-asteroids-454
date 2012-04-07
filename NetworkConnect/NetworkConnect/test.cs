@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Microsoft.Xna.Framework.Net;
 
 namespace NetworkConnect
 {
@@ -34,8 +35,33 @@ namespace NetworkConnect
         public void target()
         {
             Asteroids.Game1 game = new Asteroids.Game1();
-            game.Run();
+            //game.Run();
 
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            game.FindGames();
+
+        }
+
+        private void btnHost_Click(object sender, EventArgs e)
+        {
+            game.HostGame();
+        }
+
+        public void CreateSuccess()
+        {
+            lblStat.Text = "Session Creation Successful";
+        }
+
+        internal void PopulateList(IAsyncResult result)
+        {
+            AvailableNetworkSessionCollection availsessions = NetworkSession.EndFind(result);
+            foreach (AvailableNetworkSession session in availsessions)
+            {
+                lstAvail.Items.Add(session);
+            }
         }
     }
 }
