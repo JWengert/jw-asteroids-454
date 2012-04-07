@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using Microsoft.Xna.Framework.Net;
 
 namespace Asteroids
 {
@@ -28,16 +29,19 @@ namespace Asteroids
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        PacketReader netreader;
+        PacketWriter netwriter;
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
-        private int number_asteroids;
+        private int number_asteroids = 10;
         private SpriteFont score;
         private int screenHeight = 768;
         private int screenWidth = 1024;
+        private NetworkSession networkSession;
 
         public Game1()
         {
@@ -49,6 +53,63 @@ namespace Asteroids
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
+        }
+
+        // allows for multiplayer
+        public Game1(NetworkSession networkSession)
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+
+            // initialize the network session
+            this.networkSession = networkSession;
+
+            netreader = new PacketReader();
+            netwriter = new PacketWriter();
+            // set the default resolution and make the game full screen
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
+        }
+
+        private void SendNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
+        {
+            // write out all GameObject positions
+            foreach (GameObject obj in mygameobjects)
+            {
+                netwriter.Write(obj.Position);
+            }
+            // send to each gamer the new positions
+            foreach (LocalNetworkGamer lng in networkSession.AllGamers)
+            {
+                // only send the local players updated positions
+                if (lng.IsLocal)
+                    lng.SendData(netwriter, SendDataOptions.None);
+            }
+        }
+
+        // takes a gamer and retrieves their data
+        private void ReceiveNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
+        {
+            // make sure there is data avialable to be transmitted
+            while (gamer.IsDataAvailable)
+            {
+                // takes the data available from the gamer and puts it in the packet reader, noting that sender is the one who sent the data
+                NetworkGamer sender;
+                gamer.ReceiveData(netreader, out sender);
+
+                // make sure that the sender is not the local player on this machine
+                if (!sender.IsLocal)
+                {
+                    // go around for ever game object in the game objects list
+                    foreach (GameObject item in mygameobjects)
+                    {
+                        // update each item
+                        item.Position = netreader.ReadVector2();
+                        item.Update(gameTime);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -104,9 +165,7 @@ namespace Asteroids
             Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
                 mygameobjects.Add(p1);
 
-            // create a random number of asteroids onto the screen
-            
-            number_asteroids = randy.Next(2, 10);
+            // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
             for (int i = 0; i < number_asteroids; i++)
             {
@@ -199,9 +258,19 @@ namespace Asteroids
 
                 // check for any collisions between objects
                 foreach (GameObject obj1 in mygameobjects)
+                {
                     foreach (GameObject obj2 in mygameobjects)
+                    {
                         if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
+                        {
                             obj1.OnCollide(obj2);
+
+                            // if the object is an asteroid and was disabled, it "exploded"
+                            if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
+                                explosionSound.Play();
+                        }
+                    }
+                }
 
                 // now delete any game objects that are no longer 'alive'
                 for (int i = mygameobjects.Count - 1; i >= 0; i--)

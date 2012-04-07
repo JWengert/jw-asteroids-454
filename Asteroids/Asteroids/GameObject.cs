@@ -32,7 +32,7 @@ namespace Asteroids
         public Vector2 Position 
         { 
             get { return position; } 
-            private set { position = value; } 
+            set { position = value; } 
         }
 
         public GameObject(Game game)
