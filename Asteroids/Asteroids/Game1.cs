@@ -72,10 +72,19 @@ namespace Asteroids
             graphics.PreferredBackBufferWidth = screenWidth;
         }
 
-        private void SendNetworkData()
+        private void SendNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
         {
+            // write out all GameObject positions
             foreach (GameObject obj in mygameobjects)
             {
+                netwriter.Write(obj.Position);
+            }
+            // send to each gamer the new positions
+            foreach (LocalNetworkGamer lng in networkSession.AllGamers)
+            {
+                // only send the local players updated positions
+                if (lng.IsLocal)
+                    lng.SendData(netwriter, SendDataOptions.None);
             }
         }
 
