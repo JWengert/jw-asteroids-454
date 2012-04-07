@@ -22,7 +22,7 @@ namespace Loader
     {
         NetworkSession networkSession;
         AvailableNetworkSessionCollection availableSessions;
-        
+        GraphicsDeviceManager graphics;
         public frmSesSel()
         {
             Microsoft.Xna.Framework.GameComponentCollection compcoll = new GameComponentCollection();
@@ -33,6 +33,7 @@ namespace Loader
             InitializeComponent();
             SignedInGamer.SignedIn +=
     new EventHandler<SignedInEventArgs>(SignedInGamer_SignedIn);
+       
         }
 
         void SignedInGamer_SignedIn(object sender, SignedInEventArgs e)
