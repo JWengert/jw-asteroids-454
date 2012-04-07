@@ -37,7 +37,7 @@ namespace Asteroids
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
-        private int number_asteroids;
+        private int number_asteroids = 10;
         private SpriteFont score;
         private int screenHeight = 768;
         private int screenWidth = 1024;
@@ -76,6 +76,30 @@ namespace Asteroids
         {
             foreach (GameObject obj in mygameobjects)
             {
+            }
+        }
+
+        // takes a gamer and retrieves their data
+        private void ReceiveNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
+        {
+            // make sure there is data avialable to be transmitted
+            while (gamer.IsDataAvailable)
+            {
+                // takes the data available from the gamer and puts it in the packet reader, noting that sender is the one who sent the data
+                NetworkGamer sender;
+                gamer.ReceiveData(netreader, out sender);
+
+                // make sure that the sender is not the local player on this machine
+                if (!sender.IsLocal)
+                {
+                    // go around for ever game object in the game objects list
+                    foreach (GameObject item in mygameobjects)
+                    {
+                        // update each item
+                        item.Position = netreader.ReadVector2();
+                        item.Update(gameTime);
+                    }
+                }
             }
         }
 
@@ -132,9 +156,7 @@ namespace Asteroids
             Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
                 mygameobjects.Add(p1);
 
-            // create a random number of asteroids onto the screen
-            
-            number_asteroids = randy.Next(2, 10);
+            // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
             for (int i = 0; i < number_asteroids; i++)
             {
