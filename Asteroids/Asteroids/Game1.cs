@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using Microsoft.Xna.Framework.Net;
 
 namespace Asteroids
 {
@@ -38,11 +39,27 @@ namespace Asteroids
         private SpriteFont score;
         private int screenHeight = 768;
         private int screenWidth = 1024;
+        private NetworkSession networkSession;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // set the default resolution and make the game full screen
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
+        }
+
+        // allows for multiplayer
+        public Game1(NetworkSession networkSession)
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+
+            // initialize the network session
+            this.networkSession = networkSession;
 
             // set the default resolution and make the game full screen
             graphics.IsFullScreen = true;
