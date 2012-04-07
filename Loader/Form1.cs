@@ -17,20 +17,23 @@ namespace Loader
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLaunch_Click(object sender, EventArgs e)
         {
             ThreadStart start = new ThreadStart(target);
             Thread gamethread = new Thread(start);
             this.Hide();
             gamethread.Start();
+           
             gamethread.Join();
             this.Close();
+           
             
         }
         void target()
         {
             Asteroids.Game1 game = new Asteroids.Game1();
             game.Run();
+            
         }
     }
 }
