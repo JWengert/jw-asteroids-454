@@ -19,6 +19,7 @@ namespace Asteroids
     ///
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        //testing testing
         public static Random randy = new Random();
 
         GraphicsDeviceManager graphics;
