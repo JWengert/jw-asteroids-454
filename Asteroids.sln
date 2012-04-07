@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loader", "Loader\Loader.csp
 		{B4421097-947F-4D8E-A2B5-899B0474F36C} = {B4421097-947F-4D8E-A2B5-899B0474F36C}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkConnect", "NetworkConnect\NetworkConnect\NetworkConnect.csproj", "{C577241C-79C0-46E8-BF7F-200F61C3BE13}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "NetworkConnectContent", "NetworkConnect\NetworkConnectContent\NetworkConnectContent.contentproj", "{73BD7579-6B67-4EBD-86F7-35CCCE4FC05A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -26,6 +30,12 @@ Global
 		{6FC9014C-DE67-4986-A23B-61099ED84E45}.Debug|x86.Build.0 = Debug|x86
 		{6FC9014C-DE67-4986-A23B-61099ED84E45}.Release|x86.ActiveCfg = Release|x86
 		{6FC9014C-DE67-4986-A23B-61099ED84E45}.Release|x86.Build.0 = Release|x86
+		{C577241C-79C0-46E8-BF7F-200F61C3BE13}.Debug|x86.ActiveCfg = Debug|x86
+		{C577241C-79C0-46E8-BF7F-200F61C3BE13}.Debug|x86.Build.0 = Debug|x86
+		{C577241C-79C0-46E8-BF7F-200F61C3BE13}.Release|x86.ActiveCfg = Release|x86
+		{C577241C-79C0-46E8-BF7F-200F61C3BE13}.Release|x86.Build.0 = Release|x86
+		{73BD7579-6B67-4EBD-86F7-35CCCE4FC05A}.Debug|x86.ActiveCfg = Debug|x86
+		{73BD7579-6B67-4EBD-86F7-35CCCE4FC05A}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
