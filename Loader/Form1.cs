@@ -27,13 +27,10 @@ namespace Loader
         {
             Microsoft.Xna.Framework.GameComponentCollection compcoll = new GameComponentCollection();
             Asteroids.Game1 game = new Asteroids.Game1();
-            compcoll.Add(new GamerServicesComponent(game));
+            GamerServicesComponent gsc = new GamerServicesComponent(game);
+            gsc.Initialize();
+            compcoll.Add(gsc);
             InitializeComponent();
-            compcoll[0].Initialize();
-            availableSessions = NetworkSession.Find(
-               NetworkSessionType.SystemLink, 1, null);
-            foreach (AvailableNetworkSession session in availableSessions)
-                lstAvail.Items.Add(session);
             SignedInGamer.SignedIn +=
     new EventHandler<SignedInEventArgs>(SignedInGamer_SignedIn);
         }
@@ -62,6 +59,14 @@ namespace Loader
             Asteroids.Game1 game = new Asteroids.Game1();
             game.Run();
             
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            availableSessions = NetworkSession.Find(
+                   NetworkSessionType.SystemLink, 1, null);
+            foreach (AvailableNetworkSession session in availableSessions)
+                lstAvail.Items.Add(session);
         }
     }
 }
