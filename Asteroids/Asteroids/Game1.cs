@@ -36,11 +36,18 @@ namespace Asteroids
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
         private SpriteFont score;
+        private int screenHeight = 768;
+        private int screenWidth = 1024;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // set the default resolution and make the game full screen
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
         }
 
         /// <summary>
@@ -218,7 +225,7 @@ namespace Asteroids
             spriteBatch.Begin();
             
             // draw the bacground with a height and width of the current resolution
-            spriteBatch.Draw(outerspace, new Rectangle(0, 0, 800, 480), Color.White);
+            spriteBatch.Draw(outerspace, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
 
             // call the draw method for each object
             foreach (GameObject obj in mygameobjects)
