@@ -29,6 +29,8 @@ namespace Asteroids
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        PacketReader netreader;
+        PacketWriter netwriter;
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
@@ -62,10 +64,19 @@ namespace Asteroids
             // initialize the network session
             this.networkSession = networkSession;
 
+            netreader = new PacketReader();
+            netwriter = new PacketWriter();
             // set the default resolution and make the game full screen
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
+        }
+
+        private void SendNetworkData()
+        {
+            foreach (GameObject obj in mygameobjects)
+            {
+            }
         }
 
         /// <summary>
