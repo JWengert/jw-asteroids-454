@@ -76,7 +76,7 @@ namespace Asteroids
                 {
                     // normalize the result and then move the player based on the input
                     direction.Normalize();
-                    MovePlayer(mouseState, direction);
+                    MovePlayer(mouseState, keyboardState, direction);
                 }
                 else
                     isMoving = false;
@@ -116,16 +116,17 @@ namespace Asteroids
         }
 
         // check to see what mouse button is pressed down and move in the respective direction
-        private void MovePlayer(MouseState mouseState, Vector2 direction)
+        private void MovePlayer(MouseState mouseState,KeyboardState keyboardState, Vector2 direction)
         {
             // set the angle (rotation) of the sprite
             this.rotation = (float)Math.Atan2(direction.Y, direction.X) - (float)(Math.PI / 2);
 
             // forward (toward the mouse)
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            
+            if (keyboardState.IsKeyDown(Keys.W) || mouseState.LeftButton == ButtonState.Pressed)
             {
-                this.position.X -= (direction.X * this.speed);
-                this.position.Y -= (direction.Y * this.speed);
+                position.X -= (direction.X * speed);
+                position.Y -= (direction.Y * speed);
                 isMoving = true;
             }
             else
