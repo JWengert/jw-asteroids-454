@@ -219,8 +219,8 @@ namespace Asteroids
             if (currentGameState == GameState.Play)
             {
                 // update all the network gamers
-                foreach (LocalNetworkGamer gamer in networkSession.LocalGamers)
-                    UpdateNetworkGamers(gamer, gameTime);
+                //foreach (LocalNetworkGamer gamer in networkSession.LocalGamers)
+                //    UpdateNetworkGamers(gamer, gameTime);
 
                 // go through every game object created
                 foreach (GameObject obj in mygameobjects)
@@ -282,7 +282,7 @@ namespace Asteroids
                         mygameobjects.RemoveAt(i);
 
                 // send data across network
-                SendNetworkData(gameTime);
+                //SendNetworkData(gameTime);
             }
 
             // update the base
