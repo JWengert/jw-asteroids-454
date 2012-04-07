@@ -72,7 +72,7 @@ namespace Asteroids
             graphics.PreferredBackBufferWidth = screenWidth;
         }
 
-        private void SendNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
+        private void SendNetworkData(GameTime gameTime)
         {
             // write out all GameObject positions
             foreach (GameObject obj in mygameobjects)
