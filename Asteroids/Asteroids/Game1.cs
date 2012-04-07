@@ -258,7 +258,9 @@ namespace Asteroids
 
                 // check for any collisions between objects
                 foreach (GameObject obj1 in mygameobjects)
+                {
                     foreach (GameObject obj2 in mygameobjects)
+                    {
                         if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
                         {
                             obj1.OnCollide(obj2);
@@ -267,6 +269,8 @@ namespace Asteroids
                             if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
                                 explosionSound.Play();
                         }
+                    }
+                }
 
                 // now delete any game objects that are no longer 'alive'
                 for (int i = mygameobjects.Count - 1; i >= 0; i--)
