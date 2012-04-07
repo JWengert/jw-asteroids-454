@@ -22,17 +22,21 @@ namespace Loader
     {
         NetworkSession networkSession;
         AvailableNetworkSessionCollection availableSessions;
-        
+        private Asteroids.Game1 game;
+        private Thread gamethread;
+
         public frmSesSel()
         {
-            Microsoft.Xna.Framework.GameComponentCollection compcoll = new GameComponentCollection();
-            Asteroids.Game1 game = new Asteroids.Game1();
-            GamerServicesComponent gsc = new GamerServicesComponent(game);
+           // Microsoft.Xna.Framework.GameComponentCollection compcoll = new GameComponentCollection();
+            
+          /*  GamerServicesComponent gsc = new GamerServicesComponent(game);
             gsc.Initialize();
             compcoll.Add(gsc);
+           */ 
             InitializeComponent();
-            SignedInGamer.SignedIn +=
-    new EventHandler<SignedInEventArgs>(SignedInGamer_SignedIn);
+            //SignedInGamer.SignedIn += new EventHandler<SignedInEventArgs>(SignedInGamer_SignedIn);
+            ThreadStart start = new ThreadStart(target);
+            gamethread = new Thread(start);
         }
 
         void SignedInGamer_SignedIn(object sender, SignedInEventArgs e)
@@ -43,9 +47,8 @@ namespace Loader
         private void btnLaunch_Click(object sender, EventArgs e)
         {
 
-
-            ThreadStart start = new ThreadStart(target);
-            Thread gamethread = new Thread(start);
+          
+            
             this.Hide();
             gamethread.Start();
            
@@ -54,9 +57,9 @@ namespace Loader
            
             
         }
-        void target()
+        public void target()
         {
-            Asteroids.Game1 game = new Asteroids.Game1();
+            game = new Asteroids.Game1();
             game.Run();
             
         }
