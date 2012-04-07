@@ -22,6 +22,10 @@ namespace Asteroids
         //testing testing
         public static Random randy = new Random();
 
+        // let's us know what the current game state is
+        public enum GameState { Pause, Play, End };
+        public GameState currentGameState = GameState.Pause;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private List<GameObject> mygameobjects = new List<GameObject>();
@@ -32,11 +36,18 @@ namespace Asteroids
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids;
         private SpriteFont score;
+        private int screenHeight = 768;
+        private int screenWidth = 1024;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // set the default resolution and make the game full screen
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
         }
 
         /// <summary>
@@ -131,59 +142,71 @@ namespace Asteroids
             // allows the game to exit
             if (keyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
+            // allows game to pause
+            if (keyboardState.IsKeyDown(Keys.P))
+                if (currentGameState == GameState.Play)
+                    currentGameState = GameState.Pause;
+            // allows game to play
+            if (keyboardState.IsKeyDown(Keys.O))
+                if (currentGameState == GameState.Pause)
+                    currentGameState = GameState.Play;
 
             // check to see if the background music is done playing and replay it
             if (backgroundSound.State != SoundState.Playing)
                 backgroundSound.Play();
 
-            // go through every game object created
-            foreach (GameObject obj in mygameobjects)
+            // only update the all objects if we are in playing mode
+            if (currentGameState == GameState.Play)
             {
-                // first check if it is out of bounds
-                if (obj.OutofBounds())
+                // go through every game object created
+                foreach (GameObject obj in mygameobjects)
                 {
-                    // bullets should be destroyed
-                    if (obj is Bullet)
-                        obj.IsAlive = false;
-                    // the player will wrap around
-                    else if (obj is Player)
-                        obj.WrapAround();
-                    // an asteroid will wrap around
-                    else if(obj is Asteroid)
-                        obj.WrapAround();
-                }
-                // now update the object
-                obj.Update(gameTime);
+                    // first check if it is out of bounds
+                    if (obj.OutofBounds())
+                    {
+                        // bullets should be destroyed
+                        if (obj is Bullet)
+                            obj.IsAlive = false;
+                        // the player will wrap around
+                        else if (obj is Player)
+                            obj.WrapAround();
+                        // an asteroid will wrap around
+                        else if (obj is Asteroid)
+                            obj.WrapAround();
+                    }
+                    // now update the object
+                    obj.Update(gameTime);
 
-                // if it's a player, check if a bullet should be created or not and add it to the stack
-                if (obj is Player)
+                    // if it's a player, check if a bullet should be created or not and add it to the stack
+                    if (obj is Player)
+                    {
+                        if (Player.createBullet)
+                            players.Push((Player)obj);
+                        if (Player.isMoving && engineSound.State != SoundState.Playing)
+                            engineSound.Play();
+                        if (!Player.isMoving)
+                            engineSound.Stop();
+                    }
+                }
+
+                // create a bullet for each player who fired one
+                while (players.Count != 0)
                 {
-                    if (Player.createBullet)
-                        players.Push((Player)obj);
-                    if (Player.isMoving && engineSound.State != SoundState.Playing)
-                        engineSound.Play();
-                    if (!Player.isMoving)
-                        engineSound.Stop();
+                    mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
+                    bulletSound.Play();
                 }
-            }
-            
-            // create a bullet for each player who fired one
-            while (players.Count != 0)
-            {
-                mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
-                bulletSound.Play();
-            }
 
-            // check for any collisions between objects
-            foreach (GameObject obj1 in mygameobjects)
-                foreach (GameObject obj2 in mygameobjects)
-                    if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
-                        obj1.OnCollide(obj2);
+                // check for any collisions between objects
+                foreach (GameObject obj1 in mygameobjects)
+                    foreach (GameObject obj2 in mygameobjects)
+                        if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
+                            obj1.OnCollide(obj2);
 
-            // now delete any game objects that are no longer 'alive'
-            for (int i = mygameobjects.Count - 1; i >= 0; i--)
-                if (!mygameobjects[i].IsAlive)
-                    mygameobjects.RemoveAt(i);
+                // now delete any game objects that are no longer 'alive'
+                for (int i = mygameobjects.Count - 1; i >= 0; i--)
+                    if (!mygameobjects[i].IsAlive)
+                        mygameobjects.RemoveAt(i);
+            }
 
             // update the base
             base.Update(gameTime);
@@ -202,7 +225,7 @@ namespace Asteroids
             spriteBatch.Begin();
             
             // draw the bacground with a height and width of the current resolution
-            spriteBatch.Draw(outerspace, new Rectangle(0, 0, 800, 480), Color.White);
+            spriteBatch.Draw(outerspace, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
 
             // call the draw method for each object
             foreach (GameObject obj in mygameobjects)
