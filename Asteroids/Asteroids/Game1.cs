@@ -44,6 +44,7 @@ namespace Asteroids
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
