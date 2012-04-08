@@ -25,7 +25,7 @@ namespace Asteroids
         {
             this.owner = owner;
             this.speed = 17f;
-            this.scale = 2;
+            this.scale = 0.5f;
             CreateBullet();
             this.bounds.Radius = 10 * this.scale;
         }
@@ -56,6 +56,11 @@ namespace Asteroids
             {
                 this.alive = false;
                 this.owner.Score++;
+                obj.OnCollide(this);
+            }
+            if (obj is BlackHole)
+            {
+                this.alive = false;
                 obj.OnCollide(this);
             }
                 

@@ -29,19 +29,16 @@ namespace Asteroids
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        PacketReader netreader;
-        PacketWriter netwriter;
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
-        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon;
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids = 10;
         private SpriteFont score;
         private int screenHeight = 768;
         private int screenWidth = 1024;
-        private NetworkSession networkSession;
 
         public Game1()
         {
@@ -53,63 +50,6 @@ namespace Asteroids
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
-        }
-
-        // allows for multiplayer
-        public Game1(NetworkSession networkSession)
-        {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-
-            // initialize the network session
-            this.networkSession = networkSession;
-
-            netreader = new PacketReader();
-            netwriter = new PacketWriter();
-            // set the default resolution and make the game full screen
-            graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferHeight = screenHeight;
-            graphics.PreferredBackBufferWidth = screenWidth;
-        }
-
-        private void SendNetworkData(GameTime gameTime)
-        {
-            // write out all GameObject positions
-            foreach (GameObject obj in mygameobjects)
-            {
-                netwriter.Write(obj.Position);
-            }
-            // send to each gamer the new positions
-            foreach (LocalNetworkGamer lng in networkSession.AllGamers)
-            {
-                // only send the local players updated positions
-                if (lng.IsLocal)
-                    lng.SendData(netwriter, SendDataOptions.None);
-            }
-        }
-
-        // takes a gamer and retrieves their data
-        private void ReceiveNetworkData(LocalNetworkGamer gamer, GameTime gameTime)
-        {
-            // make sure there is data avialable to be transmitted
-            while (gamer.IsDataAvailable)
-            {
-                // takes the data available from the gamer and puts it in the packet reader, noting that sender is the one who sent the data
-                NetworkGamer sender;
-                gamer.ReceiveData(netreader, out sender);
-
-                // make sure that the sender is not the local player on this machine
-                if (!sender.IsLocal)
-                {
-                    // go around for ever game object in the game objects list
-                    foreach (GameObject item in mygameobjects)
-                    {
-                        // update each item
-                        item.Position = netreader.ReadVector2();
-                        item.Update(gameTime);
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -145,6 +85,7 @@ namespace Asteroids
             hp_empty = Content.Load<Texture2D>("shield_empty");
             hp_full = Content.Load<Texture2D>("shield_full");
             livesicon = Content.Load<Texture2D>("Shipicon");
+            blackhole = Content.Load<Texture2D>("Blackhole");
             // load the sounds
             tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
@@ -160,22 +101,32 @@ namespace Asteroids
             // start the background music
             backgroundSound.Play();
             backgroundSound.Volume = 0.1f;
+            float bx, by, bvx, bvy;
+            bx = (float)randy.NextDouble() * 1000;
+            by = (float)randy.NextDouble() * 1000;
+            bvx = (float)randy.NextDouble() / 10;
+            bvy = (float)randy.NextDouble() / 10;
+
+            mygameobjects.Add(new BlackHole(this, blackhole, new Vector2(bx, by), new Vector2(bvx, bvy)));
 
             // add a player
             Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
-                mygameobjects.Add(p1);
+            mygameobjects.Add(p1);
 
+            number_asteroids = randy.Next(10, 21);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
+            int maxvel = 3;
             for (int i = 0; i < number_asteroids; i++)
             {
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
-                ast_vel_x = randy.Next(-2, 2);
-                ast_vel_y = randy.Next(-2, 2);
+                ast_vel_x = randy.Next(-maxvel, maxvel);
+                ast_vel_y = randy.Next(-maxvel, maxvel);
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
+            
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
             hud.Add(new livesdisplay(this, p1, 1, livesicon));
         }
@@ -218,10 +169,6 @@ namespace Asteroids
             // only update the all objects if we are in playing mode
             if (currentGameState == GameState.Play)
             {
-                // update all the network gamers
-                //foreach (LocalNetworkGamer gamer in networkSession.LocalGamers)
-                //    UpdateNetworkGamers(gamer, gameTime);
-
                 // go through every game object created
                 foreach (GameObject obj in mygameobjects)
                 {
@@ -237,6 +184,8 @@ namespace Asteroids
                         // an asteroid will wrap around
                         else if (obj is Asteroid)
                             obj.WrapAround();
+                        else if (obj is BlackHole)
+                            obj.WrapAround();
                     }
                     // now update the object
                     obj.Update(gameTime);
@@ -250,6 +199,7 @@ namespace Asteroids
                             engineSound.Play();
                         if (!Player.isMoving)
                             engineSound.Stop();
+                        
                     }
                 }
 
@@ -280,22 +230,10 @@ namespace Asteroids
                 for (int i = mygameobjects.Count - 1; i >= 0; i--)
                     if (!mygameobjects[i].IsAlive)
                         mygameobjects.RemoveAt(i);
-
-                // send data across network
-                //SendNetworkData(gameTime);
             }
 
             // update the base
             base.Update(gameTime);
-        }
-
-        // code to update a single network gamer
-        private void UpdateNetworkGamers(LocalNetworkGamer gamer, GameTime gameTime)
-        {
-            // first retrieve the network data
-            ReceiveNetworkData(gamer, gameTime);
-
-
         }
 
         /// <summary>
@@ -312,7 +250,6 @@ namespace Asteroids
             
             // draw the bacground with a height and width of the current resolution
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-
             // call the draw method for each object
             foreach (GameObject obj in mygameobjects)
                 obj.Draw(gameTime, spriteBatch);

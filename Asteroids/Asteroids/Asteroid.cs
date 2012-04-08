@@ -17,10 +17,10 @@ namespace Asteroids
     /// </summary>
     public class Asteroid : GameObject
     {
-        private int hits, allowed_hits = 2;
+        private int hits, allowed_hits = 4;
         private int pause;
         private TimeSpan timer;
-
+        private int blink = 0;
         public Asteroid(Game game)
             : base(game)
         {
@@ -38,6 +38,7 @@ namespace Asteroids
             timer = new TimeSpan();
             hits = allowed_hits;
             respawnTimer = TimeSpan.FromMilliseconds(2000);
+            
         }
 
         /// <summary>
@@ -61,6 +62,13 @@ namespace Asteroids
             {
                 // TODO: Add your update code here
                 this.rotation += 0.01f;
+                if (hits < allowed_hits / 3)
+                {
+                    if (blink++ % 8 > 3)
+                        this.color = Color.Transparent;
+                    else
+                        this.color = Color.Red;
+                }
             }
             else
             {
@@ -128,6 +136,7 @@ namespace Asteroids
         public override void Respawn()
         {
             this.Enabled = true;
+            this.color = Color.White;
         }
     }
 }

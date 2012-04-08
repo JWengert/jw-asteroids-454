@@ -20,18 +20,13 @@ namespace Asteroids
         public static bool isMoving = false;
 
         // variables to spread out the time between each bullet
-        private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(550);
+        private TimeSpan timeNewBullet = TimeSpan.FromMilliseconds(250);
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields, points;
         private static int maxshields = 3;
         private int lives = 5;
-        //private TimeSpan respawnTimer = TimeSpan.FromMilliseconds(1000);
-        //private TimeSpan respawnElapsed = TimeSpan.Zero;
         private Vector2 start_pos;
         int blink = 0;
-        //private TimeSpan mercyLength = TimeSpan.FromMilliseconds(1000);
-        //private TimeSpan mercytime = TimeSpan.Zero;
-
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
         public int MaxShields { get { return maxshields; } set { ;} }
@@ -178,7 +173,6 @@ namespace Asteroids
                     shields--;
                     if (shields <= 0)
                         this.Die();
-                    mercytime = TimeSpan.Zero;
                 }
                 if (obj is Bullet)
                 {
@@ -188,9 +182,11 @@ namespace Asteroids
                         obj.IsAlive = false;
                         if (shields <= 0)
                             this.Die();
-                        mercytime = TimeSpan.Zero;
                     }
                 }
+                if (obj is BlackHole)
+                    this.Die();
+                mercytime = TimeSpan.Zero;
             }
             base.OnCollide(obj);
         }
