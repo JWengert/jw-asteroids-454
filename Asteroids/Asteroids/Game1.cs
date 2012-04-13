@@ -24,8 +24,8 @@ namespace Asteroids
         public static float Gravity = 50000f;
 
         // let's us know what the current game state is
-        public enum GameState { Pause, Play, End };
-        public GameState currentGameState = GameState.Pause;
+        public enum GameState { Menu, Pause, Play };
+        public GameState currentGameState = GameState.Menu;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -36,7 +36,7 @@ namespace Asteroids
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids = 10;
-        private SpriteFont score;
+        private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
 
@@ -47,7 +47,7 @@ namespace Asteroids
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
         }
@@ -75,6 +75,7 @@ namespace Asteroids
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             score = Content.Load<SpriteFont>("Score");
+            menu = Content.Load<SpriteFont>("Menu");
 
             // load the images
             rock1 = Content.Load<Texture2D>("asteroid1");
@@ -154,13 +155,11 @@ namespace Asteroids
             if (keyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
             // allows game to pause
-            if (keyboardState.IsKeyDown(Keys.P))
-                if (currentGameState == GameState.Play)
-                    currentGameState = GameState.Pause;
+            if (keyboardState.IsKeyDown(Keys.P) && currentGameState != GameState.Menu)
+                currentGameState = GameState.Pause;
             // allows game to play
-            if (keyboardState.IsKeyDown(Keys.O))
-                if (currentGameState == GameState.Pause)
-                    currentGameState = GameState.Play;
+            if (keyboardState.IsKeyDown(Keys.S))
+                currentGameState = GameState.Play;
 
             // check to see if the background music is done playing and replay it
             if (backgroundSound.State != SoundState.Playing)
@@ -251,15 +250,41 @@ namespace Asteroids
 
             // begin drawing all data
             spriteBatch.Begin();
-            
+
             // draw the bacground with a height and width of the current resolution
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-            // call the draw method for each object
-            foreach (GameObject obj in mygameobjects)
-                obj.Draw(gameTime, spriteBatch);
 
-            foreach (guiitem gui in hud)
-                gui.Draw(gameTime, spriteBatch);
+            // draw the menu
+            if (currentGameState == GameState.Menu)
+            {
+                // create the menu string
+                string stringToDraw = 
+                    String.Format(
+                          "Key Buttons:\n"
+                        + "    Press \"ESC\" to exit the game!\n"
+                        + "    Press \"S\" to start the game!\n" 
+                        + "    Press \"P\" to pause the game!\n\n"
+                        + "Instructions:\n"
+                        + "    Move around with left click and shoot with right click.\n"
+                        + "    Destroy as many asteroids as possible before running out of lives!\n"
+                        + "    GOOD LUCK!!!\n"
+                    );
+                
+                // draw the created string
+                spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
+            }
+            // draw our game objects if paused or playing
+            else if (currentGameState == GameState.Pause || currentGameState == GameState.Play)
+            {
+                // call the draw method for each object
+                foreach (GameObject obj in mygameobjects)
+                    obj.Draw(gameTime, spriteBatch);
+
+                // call the draw method for each gui item
+                foreach (guiitem gui in hud)
+                    gui.Draw(gameTime, spriteBatch);
+            }
+
             // end our spritebatch
             spriteBatch.End();
 
