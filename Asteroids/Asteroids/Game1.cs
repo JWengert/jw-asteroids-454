@@ -116,15 +116,18 @@ namespace Asteroids
             number_asteroids = randy.Next(10, 21);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
-            int maxvel = 3;
+            int maxvel = 3, rocknumber = 0;
             for (int i = 0; i < number_asteroids; i++)
             {
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
                 ast_vel_x = randy.Next(-maxvel, maxvel);
                 ast_vel_y = randy.Next(-maxvel, maxvel);
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
-
+                rocknumber = randy.Next(0, 2);
+                if (rocknumber == 0)
+                    mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
+                else
+                    mygameobjects.Add(new Asteroid(this, rock2, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
             }
             
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));

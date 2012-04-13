@@ -33,7 +33,7 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.scale = 1;
-            this.bounds.Radius = 20 * scale;
+            this.bounds.Radius = 30 * scale;
             pause = 0;
             timer = new TimeSpan();
             hits = allowed_hits;
