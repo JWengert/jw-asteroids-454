@@ -155,7 +155,7 @@ namespace Asteroids
             if (keyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
             // allows game to pause
-            if (keyboardState.IsKeyDown(Keys.P))
+            if (keyboardState.IsKeyDown(Keys.P) && currentGameState != GameState.Menu)
                 currentGameState = GameState.Pause;
             // allows game to play
             if (keyboardState.IsKeyDown(Keys.S))
