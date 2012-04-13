@@ -32,13 +32,14 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
-        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole;
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole, star, diamond;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids = 10;
         private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
+        protected ParticleEngine engine;
 
         public Game1()
         {
@@ -87,6 +88,9 @@ namespace Asteroids
             hp_full = Content.Load<Texture2D>("shield_full");
             livesicon = Content.Load<Texture2D>("Shipicon");
             blackhole = Content.Load<Texture2D>("Blackhole");
+            star = Content.Load<Texture2D>("star");
+            diamond = Content.Load<Texture2D>("diamond");
+
             // load the sounds
             tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
@@ -110,8 +114,9 @@ namespace Asteroids
 
             mygameobjects.Add(new BlackHole(this, blackhole, new Vector2(bx, by), new Vector2(bvx, bvy)));
 
+            engine = new ParticleEngine(star, diamond, new Vector2(100));
             // add a player
-            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
+            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), engine);
             mygameobjects.Add(p1);
 
             number_asteroids = randy.Next(10, 21);
