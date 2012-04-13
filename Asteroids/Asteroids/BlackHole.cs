@@ -25,7 +25,7 @@ namespace Asteroids
 
             this.velocity = velocity;
             this.speed = .5f;
-            this.scale = 1;
+            this.scale = 0.5f;
             this.rotation = .1f;
             this.bounds.Radius = 100 * scale;
         }
@@ -55,6 +55,8 @@ namespace Asteroids
 
         public override void OnCollide(GameObject obj)
         {
+            if (obj is Asteroid)
+                obj.Die();
             base.OnCollide(obj);
         }
 

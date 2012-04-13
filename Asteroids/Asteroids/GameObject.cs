@@ -27,7 +27,7 @@ namespace Asteroids
         protected BoundingSphere bounds;
         protected TimeSpan respawnTimer, respawnElapsed = TimeSpan.Zero;
         protected TimeSpan mercyLength, mercytime = TimeSpan.Zero;
-
+        protected Vector2 force = new Vector2(0);
 
         public Vector2 Position 
         { 
@@ -69,6 +69,8 @@ namespace Asteroids
         {
             // TODO: Add your update code here
             position += velocity;
+            position += force;
+            force = new Vector2(0);
             base.Update(gameTime);
         }
 
@@ -158,6 +160,15 @@ namespace Asteroids
 
         public virtual void Respawn()
         {
+        }
+
+        public virtual void SuckIn(GameObject obj)
+        {
+            Vector2 toBH = this.position - obj.position;
+            float r2 = (float) toBH.LengthSquared();
+            toBH.Normalize();
+            force -= Game1.Gravity / r2 * toBH;
+
         }
     }
 }

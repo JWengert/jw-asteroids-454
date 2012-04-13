@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Net;
 
 namespace Asteroids
 {
-    
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -22,6 +21,7 @@ namespace Asteroids
     {
         //testing testing
         public static Random randy = new Random();
+        public static float Gravity = 50000f;
 
         // let's us know what the current game state is
         public enum GameState { Pause, Play, End };
@@ -215,6 +215,10 @@ namespace Asteroids
                 {
                     foreach (GameObject obj2 in mygameobjects)
                     {
+                        if (obj1 is BlackHole && obj1 != obj2)
+                        {
+                            obj2.SuckIn(obj1);
+                        }
                         if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
                         {
                             obj1.OnCollide(obj2);
