@@ -33,7 +33,7 @@ namespace Asteroids
             this.position = startposition;
             this.velocity = velocity;
             this.scale = 1;
-            this.bounds.Radius = 20 * scale;
+            this.bounds.Radius = 30 * scale;
             pause = 0;
             timer = new TimeSpan();
             hits = allowed_hits;
@@ -104,10 +104,11 @@ namespace Asteroids
                     hits--;
                 else
                 {
-                    pause = timer.Milliseconds;
-                    this.Enabled = false;
+                    this.Die();
                 }
             }
+            if (obj is BlackHole)
+                this.Die();
             base.OnCollide(obj);
         }
 
@@ -130,12 +131,15 @@ namespace Asteroids
 
         public override void Die()
         {
+            respawnElapsed = TimeSpan.Zero;
+            this.Enabled = false;
             base.Die();
         }
 
         public override void Respawn()
         {
             this.Enabled = true;
+            this.velocity = new Vector2(Game1.randy.Next(-10, 11) / 10, Game1.randy.Next(-10, 11) / 10);
             this.color = Color.White;
         }
     }

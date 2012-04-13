@@ -117,7 +117,6 @@ namespace Asteroids
             this.rotation = (float)Math.Atan2(direction.Y, direction.X) - (float)(Math.PI / 2);
 
             // forward (toward the mouse)
-            
             if (keyboardState.IsKeyDown(Keys.W) || mouseState.LeftButton == ButtonState.Pressed)
             {
                 position.X -= (direction.X * speed);
@@ -143,7 +142,8 @@ namespace Asteroids
             this.Enabled = true;
             this.shields = maxshields;
             mercytime = TimeSpan.Zero;
-            
+            this.velocity = new Vector2(0);
+            this.force = new Vector2(0);
         }
 
         // base drawing handles most the necessary drawing
@@ -173,6 +173,7 @@ namespace Asteroids
                     shields--;
                     if (shields <= 0)
                         this.Die();
+                    mercytime = TimeSpan.Zero;
                 }
                 if (obj is Bullet)
                 {
@@ -182,11 +183,12 @@ namespace Asteroids
                         obj.IsAlive = false;
                         if (shields <= 0)
                             this.Die();
+                    mercytime = TimeSpan.Zero;
                     }
                 }
                 if (obj is BlackHole)
                     this.Die();
-                mercytime = TimeSpan.Zero;
+                
             }
             base.OnCollide(obj);
         }
