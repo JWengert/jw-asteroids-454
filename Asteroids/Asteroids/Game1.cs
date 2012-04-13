@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Net;
 namespace Asteroids
 {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main type for your game de
     /// </summary>
     ///
     public class Game1 : Microsoft.Xna.Framework.Game
@@ -32,13 +32,15 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
-        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole;
+        private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole, diamond, star;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids = 10;
         private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
+
+        protected ParticleEngine engine;
 
         public Game1()
         {
@@ -47,7 +49,7 @@ namespace Asteroids
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
         }
@@ -87,6 +89,9 @@ namespace Asteroids
             hp_full = Content.Load<Texture2D>("shield_full");
             livesicon = Content.Load<Texture2D>("Shipicon");
             blackhole = Content.Load<Texture2D>("Blackhole");
+            diamond = Content.Load<Texture2D>("diamond");
+            star = Content.Load<Texture2D>("star");
+
             // load the sounds
             tempSound = Content.Load<SoundEffect>("fire4");
             bulletSound = tempSound.CreateInstance();
@@ -110,22 +115,27 @@ namespace Asteroids
 
             mygameobjects.Add(new BlackHole(this, blackhole, new Vector2(bx, by), new Vector2(bvx, bvy)));
 
+
+            engine = new ParticleEngine(diamond, star, new Vector2(100));
             // add a player
-            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0));
+            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), engine);
             mygameobjects.Add(p1);
 
             number_asteroids = randy.Next(10, 21);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
-            int maxvel = 3;
+            int maxvel = 3, rocknumber = 0;
             for (int i = 0; i < number_asteroids; i++)
             {
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
                 ast_vel_x = randy.Next(-maxvel, maxvel);
                 ast_vel_y = randy.Next(-maxvel, maxvel);
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
-
+                rocknumber = randy.Next(0, 2);
+                if (rocknumber == 0)
+                    mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
+                else
+                    mygameobjects.Add(new Asteroid(this, rock2, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
             }
             
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));

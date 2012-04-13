@@ -30,8 +30,11 @@ namespace Asteroids
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
         public int MaxShields { get { return maxshields; } set { ;} }
+
+        private ParticleEngine engine;
+
         // constructor does most the initialization of the inherited variables
-        public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity)
+        public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, ParticleEngine engine)
             : base(game, picture)
         {
             this.position = startposition;
@@ -43,6 +46,7 @@ namespace Asteroids
             shields = maxshields;
             respawnTimer = TimeSpan.FromMilliseconds(1000);
             mercyLength = TimeSpan.FromMilliseconds(1000);
+            this.engine = engine;
         }
 
         // any initialization needed before loading game content
@@ -96,6 +100,8 @@ namespace Asteroids
                     else
                         this.color = Color.White;
                 }
+                engine.EmitterLocation = this.position;
+                engine.Update();
             }
             else
             {
@@ -149,6 +155,8 @@ namespace Asteroids
         // base drawing handles most the necessary drawing
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
+            if (this.Enabled)
+                engine.Draw(sb);
             base.Draw(gameTime, sb);
         }
 
