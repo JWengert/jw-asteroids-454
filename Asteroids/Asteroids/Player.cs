@@ -175,20 +175,8 @@ namespace Asteroids
                         this.Die();
                     mercytime = TimeSpan.Zero;
                 }
-                if (obj is Bullet)
-                {
-                    if (((Bullet)obj).Owner != this)
-                    {
-                        shields--;
-                        obj.IsAlive = false;
-                        if (shields <= 0)
-                            this.Die();
-                    mercytime = TimeSpan.Zero;
-                    }
-                }
                 if (obj is BlackHole)
                     this.Die();
-                
             }
             base.OnCollide(obj);
         }

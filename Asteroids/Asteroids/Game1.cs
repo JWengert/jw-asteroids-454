@@ -47,7 +47,7 @@ namespace Asteroids
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
         }
@@ -222,9 +222,10 @@ namespace Asteroids
                         {
                             obj1.OnCollide(obj2);
 
-                            // if the object is an asteroid and was disabled, it "exploded"
-                            if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
-                                explosionSound.Play();
+                            // if one object is a bullet and the other object is an asteroid and was disabled, it "exploded"
+                            if (obj1 is Bullet || obj2 is Bullet)
+                                if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
+                                    explosionSound.Play();
                         }
                     }
                 }
