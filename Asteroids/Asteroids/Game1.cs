@@ -47,7 +47,7 @@ namespace Asteroids
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
         }
