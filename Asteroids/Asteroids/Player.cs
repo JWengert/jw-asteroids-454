@@ -30,7 +30,6 @@ namespace Asteroids
         public int Shields { get { return shields; } set { ;} }
         public int Lives { get { return lives; } set { ;} }
         public int MaxShields { get { return maxshields; } set { ;} }
-
         private ParticleEngine engine;
 
         // constructor does most the initialization of the inherited variables
@@ -155,8 +154,7 @@ namespace Asteroids
         // base drawing handles most the necessary drawing
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            if (this.Enabled)
-                engine.Draw(sb);
+            engine.Draw(sb);
             base.Draw(gameTime, sb);
         }
 

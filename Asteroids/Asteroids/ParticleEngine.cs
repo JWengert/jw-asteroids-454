@@ -39,7 +39,7 @@ namespace Asteroids
                 if (particles[particle].TTL <= 0)
                 {
                     particles.RemoveAt(particle);
-                    particle--; 
+                    particle--;
                 }
             }
         }
