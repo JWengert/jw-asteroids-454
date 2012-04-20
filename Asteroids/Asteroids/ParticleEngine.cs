@@ -44,15 +44,16 @@ namespace Asteroids
             }
         }
 
-        public void Update()
+        public void Update(bool ismoving)
         {
             int total = 100;
-
-            for (int i = 0; i < total; i++)
+            if (ismoving)
             {
-                particles.Add(GenerateNewParticle());
+                for (int i = 0; i < total; i++)
+                {
+                    particles.Add(GenerateNewParticle());
+                }
             }
-
             for (int particle = 0; particle < particles.Count; particle++)
             {
                 particles[particle].Update();
