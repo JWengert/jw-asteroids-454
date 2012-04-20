@@ -74,12 +74,9 @@ namespace Asteroids
                     this.Respawn();
                     this.respawnElapsed = TimeSpan.Zero;
                     int x, y;
-                    x = Game1.randy.Next(int.MinValue,int.MaxValue);
-                    y = Game1.randy.Next(int.MinValue,int.MaxValue);
+                    x = Game1.randy.Next(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Width + 51);
+                    y = Game1.randy.Next(Game.Window.ClientBounds.Height, Game.Window.ClientBounds.Height + 51);
                     this.position = new Vector2(x, y);
-                    x = Game1.randy.Next(-2, 2);
-                    y = Game1.randy.Next(-2, 2);
-                    this.velocity = new Vector2(x, y);
                     WrapAround();
                 }
             }
