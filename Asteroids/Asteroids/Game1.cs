@@ -58,8 +58,8 @@ namespace Asteroids
             screenWidth = displayMode.Width;
             screenHeight = displayMode.Height;
 
-            min_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
-            max_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
+            min_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)700);
+            max_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)700);
 
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
