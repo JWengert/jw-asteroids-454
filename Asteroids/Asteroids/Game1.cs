@@ -21,9 +21,9 @@ namespace Asteroids
     {
         //testing testing
         public static Random randy = new Random();
+        public static float Gravity = 50000f;
         public static int AstMinVel = 2;
         public static int AstMaxVel = 4;
-        public static float Gravity = 50000f;
 
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
@@ -42,8 +42,6 @@ namespace Asteroids
         private int screenHeight = 768;
         private int screenWidth = 1024;
         protected ParticleEngine engine;
-        private TimeSpan difficultylevel = TimeSpan.Zero;
-        private TimeSpan difficulty_timer = TimeSpan.FromSeconds(5);
 
         public Game1()
         {
@@ -120,7 +118,7 @@ namespace Asteroids
 
             engine = new ParticleEngine(star, diamond, new Vector2(100));
             // add a player
-            Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), engine);
+            Player p1 = new Player(this, spaceship, new Vector2(screenWidth/2, screenHeight/2), new Vector2(0), engine);
             mygameobjects.Add(p1);
 
             number_asteroids = randy.Next(15, 26);
@@ -132,14 +130,14 @@ namespace Asteroids
                 ast_y = randy.Next(50, 400);
                 ast_vel_x = randy.Next(AstMinVel, AstMaxVel);
                 ast_vel_y = randy.Next(AstMinVel, AstMaxVel);
-                if (randy.Next(0, 50) <= 24)
+                if (Game1.randy.Next(0, 50) <= 24)
                     ast_vel_x *= -1;
-                if (randy.Next(0, 50) <= 24)
+                if (Game1.randy.Next(0, 50) <= 24)
                     ast_vel_y *= -1;
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
-
+            
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
             hud.Add(new livesdisplay(this, p1, 1, livesicon));
         }
@@ -181,9 +179,8 @@ namespace Asteroids
                 backgroundSound.Play();
 
             // only update the all objects if we are in playing mode
-            if (currentGameState == GameState.Play)
+            if (currentGameState != GameState.Pause)
             {
-                difficultylevel += gameTime.ElapsedGameTime;
                 // go through every game object created
                 foreach (GameObject obj in mygameobjects)
                 {
@@ -203,10 +200,11 @@ namespace Asteroids
                             obj.WrapAround();
                     }
                     // now update the object
-                    obj.Update(gameTime);
+                    if (!(obj is Player))
+                        obj.Update(gameTime);
 
                     // if it's a player, check if a bullet should be created or not and add it to the stack
-                    if (obj is Player)
+                    if (obj is Player && (currentGameState == GameState.Play || currentGameState == GameState.End))
                     {
                         if (Player.createBullet)
                             players.Push((Player)obj);
@@ -215,10 +213,8 @@ namespace Asteroids
                         if (!Player.isMoving)
                             engineSound.Stop();
                         if (((Player)obj).Lives <= 0)
-                        {
-                            deathSound.Play();
                             GameOver();
-                        }
+                        obj.Update(gameTime);
                     }
                 }
 
@@ -229,19 +225,12 @@ namespace Asteroids
                     bulletSound.Play();
                 }
 
-                // add an asteroid every time period
-                if (difficultylevel > difficulty_timer)
-                {
-                    difficultylevel = TimeSpan.Zero;
-                    mygameobjects.Add(new Asteroid(this, rock2, new Vector2(randy.Next(-10, 0), randy.Next(-10, 0)), new Vector2(randy.Next(1, 4))));
-                }
-
                 // check for any collisions between objects
                 foreach (GameObject obj1 in mygameobjects)
                 {
                     foreach (GameObject obj2 in mygameobjects)
                     {
-                        if (obj1 is BlackHole && obj1 != obj2)
+                        if (obj1 is BlackHole && obj1 != obj2 && obj2.Enabled)
                         {
                             obj2.SuckIn(obj1);
                         }
@@ -290,63 +279,68 @@ namespace Asteroids
             // draw the bacground with a height and width of the current resolution
             spriteBatch.Draw(outerspace, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
 
+                // call the draw method for each object
+            foreach (GameObject obj in mygameobjects)
+                obj.Draw(gameTime, spriteBatch);
+
+            if (currentGameState == GameState.Play || currentGameState == GameState.Pause)
+            {
+                // call the draw method for each gui item
+                foreach (guiitem gui in hud)
+                    gui.Draw(gameTime, spriteBatch);
+            }
+
+            if (currentGameState == GameState.End)
+            {
+                // draw our game objects if paused or playing
+                if (currentGameState == GameState.End)
+                {
+                    // create the end game string
+                    string stringToDraw =
+                        String.Format(
+                              "GAME OVER\n"
+                            + "    Press Esc to Exit.\n"
+                            + "    Press Enter to Restart.\n"
+                        );
+                    // get the score of the player
+                    foreach (GameObject item in mygameobjects)
+                    {
+                        // find the player in the list of game objects
+                        if (item is Player)
+                        {
+                            // put the score in the string to be drawn
+                            Player p = (Player)item;
+                            stringToDraw += "    Your score is: " + p.Score + "!!\n";
+                        }
+                    }
+
+
+                    // draw the created string
+                    spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
+                }
+
+            }
+
             // draw the menu
             if (currentGameState == GameState.Menu)
             {
                 // create the menu string
-                string stringToDraw = 
+                string stringToDraw =
                     String.Format(
                           "Key Buttons:\n"
                         + "    Press \"ESC\" to exit the game!\n"
-                        + "    Press \"S\" to start the game!\n" 
+                        + "    Press \"S\" to start the game!\n"
                         + "    Press \"P\" to pause the game!\n\n"
                         + "Instructions:\n"
                         + "    Move around with left click and shoot with right click.\n"
                         + "    Destroy as many asteroids as possible before running out of lives!\n"
                         + "    GOOD LUCK!!!\n"
                     );
-                
-                // draw the created string
-                spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
-            }
-
-            // draw our game objects if paused or playing
-            if (currentGameState == GameState.End)
-            {
-                // create the end game string
-                string stringToDraw =
-                    String.Format(
-                          "GAME OVER\n"
-                        + "    Press Esc to Exit.\n"
-                        + "    Press Enter to Restart.\n"
-                    );
-                // get the score of the player
-                foreach (GameObject item in mygameobjects)
-                {
-                    // find the player in the list of game objects
-                    if (item is Player)
-                    {
-                        // put the score in the string to be drawn
-                        Player p = (Player)item;
-                        stringToDraw += "    Your score is: " + p.Score + "!!\n";
-                    }
-                }
-
 
                 // draw the created string
                 spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
             }
             
-            else if (currentGameState == GameState.Pause || currentGameState == GameState.Play)
-            {
-                // call the draw method for each object
-                foreach (GameObject obj in mygameobjects)
-                    obj.Draw(gameTime, spriteBatch);
-
-                // call the draw method for each gui item
-                foreach (guiitem gui in hud)
-                    gui.Draw(gameTime, spriteBatch);
-            }
 
             // end our spritebatch
             spriteBatch.End();

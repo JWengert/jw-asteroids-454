@@ -46,6 +46,8 @@ namespace Asteroids
             respawnTimer = TimeSpan.FromMilliseconds(1000);
             mercyLength = TimeSpan.FromMilliseconds(1000);
             this.engine = engine;
+            this.Enabled = false;
+            respawnElapsed = respawnTimer;
         }
 
         // any initialization needed before loading game content
@@ -141,6 +143,7 @@ namespace Asteroids
             isMoving = false;
             createBullet = false;
             this.lives--;
+            engine.Explosion(1000);
         }
 
         public override void Respawn()
