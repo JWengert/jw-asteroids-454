@@ -137,6 +137,7 @@ namespace Asteroids
 
         public override void Die()
         {
+            Game1.playerdie.Play();
             this.Enabled = false;
             respawnElapsed = TimeSpan.Zero;
             engine.Explosion(1000, this.position, 1); 
