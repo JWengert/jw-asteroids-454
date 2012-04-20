@@ -293,16 +293,28 @@ namespace Asteroids
                 spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
             }
 
-                // draw our game objects if paused or playing
+            // draw our game objects if paused or playing
             if (currentGameState == GameState.End)
             {
-                // create the menu string
+                // create the end game string
                 string stringToDraw =
                     String.Format(
                           "GAME OVER\n"
                         + "    Press Esc to Exit.\n"
                         + "    Press Enter to Restart.\n"
                     );
+                // get the score of the player
+                foreach (GameObject item in mygameobjects)
+                {
+                    // find the player in the list of game objects
+                    if (item is Player)
+                    {
+                        // put the score in the string to be drawn
+                        Player p = (Player)item;
+                        stringToDraw += "    Your score is: " + p.Score + "!!\n";
+                    }
+                }
+
 
                 // draw the created string
                 spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
