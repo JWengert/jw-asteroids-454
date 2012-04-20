@@ -24,7 +24,7 @@ namespace Asteroids
         public static float Gravity = 50000f;
         public static int AstMinVel = 2;
         public static int AstMaxVel = 4;
-        
+        public static ParticleEngine engine; 
 
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
@@ -42,10 +42,6 @@ namespace Asteroids
         private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
-        protected ParticleEngine engine;
-        private TimeSpan timer_ast = TimeSpan.Zero;
-        private TimeSpan timer_limit_ast = TimeSpan.FromSeconds(10);
-        private int maxnewasteroids;
 
         public Game1()
         {
@@ -117,7 +113,7 @@ namespace Asteroids
             by = (float)randy.NextDouble() * 1000;
             bvx = (float)randy.NextDouble() / 10;
             bvy = (float)randy.NextDouble() / 10;
-            maxnewasteroids = 10;
+
             mygameobjects.Add(new BlackHole(this, blackhole, new Vector2(bx, by), new Vector2(bvx, bvy)));
 
             engine = new ParticleEngine(star, diamond, new Vector2(100));
@@ -220,20 +216,6 @@ namespace Asteroids
                             GameOver();
                         obj.Update(gameTime);
                     }
-                }
-
-                if (timer_ast > timer_limit_ast && maxnewasteroids > 0)
-                {
-                    int ast_x, ast_y, ast_vel_x, ast_vel_y;
-                    ast_x = randy.Next(this.Window.ClientBounds.Width, this.Window.ClientBounds.Width + 51);
-                    ast_y = randy.Next(this.Window.ClientBounds.Height, this.Window.ClientBounds.Height + 51);
-                    ast_vel_x = randy.Next(AstMinVel, AstMaxVel);
-                    ast_vel_y = randy.Next(AstMinVel, AstMaxVel);
-                    if (Game1.randy.Next(0, 50) <= 24)
-                        ast_vel_x *= -1;
-                    if (Game1.randy.Next(0, 50) <= 24)
-                        ast_vel_y *= -1;
-                    mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
                 }
 
                 // create a bullet for each player who fired one

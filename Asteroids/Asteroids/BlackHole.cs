@@ -55,8 +55,6 @@ namespace Asteroids
 
         public override void OnCollide(GameObject obj)
         {
-            if (obj is Asteroid)
-                obj.Die();
             base.OnCollide(obj);
         }
 
