@@ -40,6 +40,8 @@ namespace Asteroids
         private int screenHeight = 768;
         private int screenWidth = 1024;
         protected ParticleEngine engine;
+        private TimeSpan difficultylevel = TimeSpan.Zero;
+        private TimeSpan difficulty_timer = TimeSpan.FromSeconds(5);
 
         public Game1()
         {
@@ -132,7 +134,7 @@ namespace Asteroids
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
-            
+
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
             hud.Add(new livesdisplay(this, p1, 1, livesicon));
         }
@@ -176,6 +178,7 @@ namespace Asteroids
             // only update the all objects if we are in playing mode
             if (currentGameState == GameState.Play)
             {
+                difficultylevel += gameTime.ElapsedGameTime;
                 // go through every game object created
                 foreach (GameObject obj in mygameobjects)
                 {
@@ -207,8 +210,10 @@ namespace Asteroids
                         if (!Player.isMoving)
                             engineSound.Stop();
                         if (((Player)obj).Lives <= 0)
+                        {
+                            deathSound.Play();
                             GameOver();
-                        
+                        }
                     }
                 }
 
@@ -217,6 +222,13 @@ namespace Asteroids
                 {
                     mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
                     bulletSound.Play();
+                }
+
+                // add an asteroid every time period
+                if (difficultylevel > difficulty_timer)
+                {
+                    difficultylevel = TimeSpan.Zero;
+                    mygameobjects.Add(new Asteroid(this, rock2, new Vector2(randy.Next(-10, 0), randy.Next(-10, 0)), new Vector2(randy.Next(1, 4))));
                 }
 
                 // check for any collisions between objects
