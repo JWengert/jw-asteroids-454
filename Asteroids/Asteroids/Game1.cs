@@ -119,7 +119,7 @@ namespace Asteroids
             Player p1 = new Player(this, spaceship, new Vector2(100, 100), new Vector2(0), engine);
             mygameobjects.Add(p1);
 
-            number_asteroids = randy.Next(10, 21);
+            number_asteroids = randy.Next(15, 26);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
             int maxvel = 3;

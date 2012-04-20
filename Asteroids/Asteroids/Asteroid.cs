@@ -18,8 +18,6 @@ namespace Asteroids
     public class Asteroid : GameObject
     {
         private int hits, allowed_hits = 4;
-        private int pause;
-        private TimeSpan timer;
         private int blink = 0;
         public Asteroid(Game game)
             : base(game)
@@ -34,11 +32,8 @@ namespace Asteroids
             this.velocity = velocity;
             this.scale = 1;
             this.bounds.Radius = 30 * scale;
-            pause = 0;
-            timer = new TimeSpan();
             hits = allowed_hits;
             respawnTimer = TimeSpan.FromMilliseconds(2000);
-            
         }
 
         /// <summary>
@@ -106,6 +101,13 @@ namespace Asteroids
                 {
                     this.Die();
                 }
+            }
+            if (obj is Asteroid)
+            {
+                Vector2 direction = this.position - obj.Position;
+                
+                if (Vector2.Dot(this.velocity, direction) < 0)
+                    this.velocity *= -1;
             }
             if (obj is BlackHole)
                 this.Die();
