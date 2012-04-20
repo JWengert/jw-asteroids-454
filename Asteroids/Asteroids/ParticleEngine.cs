@@ -28,18 +28,18 @@ namespace Asteroids
 
         public void CreateFlames(int size)
         {
-            int r, g, b, alpha;
-            r = 255;
-            g = 200;
-            b = 200;
+            float r, g, b, alpha;
+            r = 228;
+            g = 128;
+            b = 28;
             alpha = 255;
             engineeffects = new Color[size];
             for (int i = 0; i < engineeffects.Length; i++)
             {
-
-                g-=2;
-                b-=2;
-                alpha -= 3;
+                r -= 1;
+                g -= 1;
+                b += 1;
+                alpha -= 5;
                 engineeffects[i] = new Color(r, g, b, alpha);
             }
         }
@@ -74,14 +74,11 @@ namespace Asteroids
                                     1f * (float)(random.NextDouble() * 2 - 1));
             float angle = 0;
             float angularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
-            Color color = new Color(
-                        (float)random.NextDouble(),
-                        (float)random.NextDouble(),
-                        (float)random.NextDouble());
+            Color color = new Color(255, 0, 0, 255);
             float size = (float)random.NextDouble() / 2;
             int ttl = 5 + random.Next(40);
             
-            return new Particle(texture, position, velocity, angle, angularVelocity, engineeffects[0], size, ttl);
+            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
         }
 
         public void Draw(SpriteBatch spriteBatch)
