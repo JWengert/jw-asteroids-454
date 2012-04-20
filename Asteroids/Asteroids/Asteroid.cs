@@ -141,7 +141,14 @@ namespace Asteroids
         public override void Respawn()
         {
             this.Enabled = true;
-            this.velocity = new Vector2(Game1.randy.Next(-10, 11) / 10, Game1.randy.Next(-10, 11) / 10);
+            int ast_vel_x, ast_vel_y;
+            ast_vel_x = Game1.randy.Next(Game1.AstMinVel, Game1.AstMaxVel);
+            ast_vel_y = Game1.randy.Next(Game1.AstMinVel, Game1.AstMaxVel);
+            if (Game1.randy.Next(0, 50) <= 24)
+                ast_vel_x *= -1;
+            if (Game1.randy.Next(0, 50) <= 24)
+                ast_vel_y *= -1;
+            this.velocity = new Vector2(ast_vel_x, ast_vel_y);
             this.color = Color.White;
         }
     }
