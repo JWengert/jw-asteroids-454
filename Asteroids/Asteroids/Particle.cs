@@ -49,7 +49,7 @@ namespace Asteroids
             r = (1 - ratio);
             g = (0 + ratio * 0.5f);
             b = (0 + ratio);
-            a =  1 - ratio;
+            a = (1 - ratio);
             color = new Color(r, g, b, a);
         }
 

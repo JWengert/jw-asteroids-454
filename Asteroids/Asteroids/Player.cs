@@ -110,6 +110,7 @@ namespace Asteroids
                     if (lives > 0)
                         this.Respawn();
                 }
+                engine.Update(false);
             }
             // base update must happen afterwards
             base.Update(gameTime);

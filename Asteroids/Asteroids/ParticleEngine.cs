@@ -23,25 +23,6 @@ namespace Asteroids
             EmitterLocation = location;
             this.particles = new List<Particle>();
             random = new Random();
-            CreateFlames(100);
-        }
-
-        public void CreateFlames(int size)
-        {
-            float r, g, b, alpha;
-            r = 228;
-            g = 128;
-            b = 28;
-            alpha = 255;
-            engineeffects = new Color[size];
-            for (int i = 0; i < engineeffects.Length; i++)
-            {
-                r -= 1;
-                g -= 1;
-                b += 1;
-                alpha -= 5;
-                engineeffects[i] = new Color(r, g, b, alpha);
-            }
         }
 
         public void Update(bool ismoving)
