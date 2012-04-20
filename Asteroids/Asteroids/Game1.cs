@@ -40,8 +40,8 @@ namespace Asteroids
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
         private int number_asteroids = 10;
         private SpriteFont score, menu;
-        private int screenHeight = 768;
-        private int screenWidth = 1024;
+        private int screenHeight = 480;
+        private int screenWidth = 800;
 
         public Game1()
         {
@@ -50,6 +50,9 @@ namespace Asteroids
             Content.RootDirectory = "Content";
 
             // set the default resolution and make the game full screen
+            DisplayMode displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+            screenWidth = displayMode.Width;
+            screenHeight = displayMode.Height;
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
