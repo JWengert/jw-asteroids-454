@@ -100,7 +100,7 @@ namespace Asteroids
                         this.color = Color.White;
                 }
                 engine.EmitterLocation = this.position;
-                engine.Update();
+                engine.Update(isMoving);
             }
             else
             {
