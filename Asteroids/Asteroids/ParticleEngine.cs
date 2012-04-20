@@ -69,5 +69,22 @@ namespace Asteroids
                 particles[index].Draw(spriteBatch);
             }
         }
+
+        public void Explosion(int count)
+        {
+            Particle newpart;
+            for (int i = 0; i < count; i++)
+            {
+                newpart = GenerateNewParticle();
+                newpart.Velocity *= 10;
+                newpart.Size *= 2;
+                if (newpart.Velocity.LengthSquared() > 10)
+                {
+                    newpart.Velocity.Normalize();
+                    newpart.Velocity = newpart.Velocity * random.Next(10);
+                }
+                particles.Add(newpart);
+            }
+        }
     }
 }
