@@ -13,6 +13,7 @@ namespace Asteroids
         public Vector2 EmitterLocation { get; set; }
         private List<Particle> particles;
         private List<Texture2D> textures;
+        static public Color[] engineeffects;
 
         public ParticleEngine(Texture2D t1, Texture2D t2, Vector2 location)
         {
@@ -22,11 +23,30 @@ namespace Asteroids
             EmitterLocation = location;
             this.particles = new List<Particle>();
             random = new Random();
+            CreateFlames(100);
+        }
+
+        public void CreateFlames(int size)
+        {
+            int r, g, b, alpha;
+            r = 255;
+            g = 200;
+            b = 200;
+            alpha = 255;
+            engineeffects = new Color[size];
+            for (int i = 0; i < engineeffects.Length; i++)
+            {
+
+                g-=2;
+                b-=2;
+                alpha -= 3;
+                engineeffects[i] = new Color(r, g, b, alpha);
+            }
         }
 
         public void Update()
         {
-            int total = 10;
+            int total = 100;
 
             for (int i = 0; i < total; i++)
             {
@@ -57,10 +77,10 @@ namespace Asteroids
                         (float)random.NextDouble(),
                         (float)random.NextDouble(),
                         (float)random.NextDouble());
-            float size = (float)random.NextDouble();
-            int ttl = 10 + random.Next(40);
-
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
+            float size = (float)random.NextDouble() / 2;
+            int ttl = 5 + random.Next(40);
+            
+            return new Particle(texture, position, velocity, angle, angularVelocity, engineeffects[0], size, ttl);
         }
 
         public void Draw(SpriteBatch spriteBatch)

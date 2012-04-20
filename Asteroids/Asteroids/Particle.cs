@@ -15,9 +15,10 @@ namespace Asteroids
         public Vector2 Velocity { get; set; }
         public float Angle { get; set; }
         public float AngularVelocity { get; set; }
-        public Color Color { get; set; }
+        public Color color { get; set; }
         public float Size { get; set; }
         public int TTL { get; set; }
+        public int maxttl, effect;
 
         public Particle(Texture2D texture, Vector2 position, Vector2 velocity,
             float angle, float angularVelocity, Color color, float size, int ttl)
@@ -27,9 +28,10 @@ namespace Asteroids
             Velocity = velocity;
             Angle = angle;
             AngularVelocity = angularVelocity;
-            Color = color;
+            this.color = color;
             Size = size;
             TTL = ttl;
+            maxttl = TTL;
         }
 
         public void Update()
@@ -37,6 +39,7 @@ namespace Asteroids
             TTL--;
             Position += Velocity;
             Angle += AngularVelocity;
+            effect = ParticleEngine.engineeffects.Length - (TTL / maxttl) * ParticleEngine.engineeffects.Length - 1;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -44,7 +47,7 @@ namespace Asteroids
             Rectangle sourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
             Vector2 origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
 
-            spriteBatch.Draw(Texture, Position, sourceRectangle, Color,
+            spriteBatch.Draw(Texture, Position, sourceRectangle, ParticleEngine.engineeffects[effect],
                 Angle, origin, Size, SpriteEffects.None, 0f);
         }
     }
