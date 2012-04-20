@@ -43,6 +43,9 @@ namespace Asteroids
         private int screenHeight = 480;
         private int screenWidth = 800;
 
+        private int min_asteroids_begin = 15;
+        private int max_asteroids_begin = 26;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -53,6 +56,10 @@ namespace Asteroids
             DisplayMode displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
             screenWidth = displayMode.Width;
             screenHeight = displayMode.Height;
+
+            min_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
+            max_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
+
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
@@ -124,13 +131,13 @@ namespace Asteroids
             Player p1 = new Player(this, spaceship, new Vector2(screenWidth/2, screenHeight/2), new Vector2(0), engine);
             mygameobjects.Add(p1);
 
-            number_asteroids = randy.Next(15, 26);
+            number_asteroids = randy.Next(min_asteroids_begin, max_asteroids_begin);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
             for (int i = 0; i < number_asteroids; i++)
             {
-                ast_x = randy.Next(50, 700);
-                ast_y = randy.Next(50, 400);
+                ast_x = randy.Next(50, screenWidth);
+                ast_y = randy.Next(50, screenHeight);
                 ast_vel_x = randy.Next(AstMinVel, AstMaxVel);
                 ast_vel_y = randy.Next(AstMinVel, AstMaxVel);
                 if (Game1.randy.Next(0, 50) <= 24)
