@@ -24,7 +24,7 @@ namespace Asteroids
         private TimeSpan timeBulleElapsed = TimeSpan.Zero;
         private int shields, points;
         private static int maxshields = 3;
-        private int lives = 5;
+        private int lives = 3;
         private Vector2 start_pos;
         int blink = 0;
         public int Shields { get { return shields; } set { ;} }

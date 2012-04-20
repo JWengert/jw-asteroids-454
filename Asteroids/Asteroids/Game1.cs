@@ -24,7 +24,7 @@ namespace Asteroids
         public static float Gravity = 50000f;
 
         // let's us know what the current game state is
-        public enum GameState { Menu, Pause, Play };
+        public enum GameState { Menu, Pause, Play, End };
         public GameState currentGameState = GameState.Menu;
 
         GraphicsDeviceManager graphics;
@@ -160,11 +160,14 @@ namespace Asteroids
             if (keyboardState.IsKeyDown(Keys.Escape))
                 this.Exit();
             // allows game to pause
-            if (keyboardState.IsKeyDown(Keys.P) && currentGameState != GameState.Menu)
+            if (keyboardState.IsKeyDown(Keys.P) && currentGameState != GameState.Menu && currentGameState != GameState.End)
                 currentGameState = GameState.Pause;
             // allows game to play
-            if (keyboardState.IsKeyDown(Keys.S))
+            if (keyboardState.IsKeyDown(Keys.S) && currentGameState != GameState.End)
                 currentGameState = GameState.Play;
+
+            if (currentGameState == GameState.End && keyboardState.IsKeyDown(Keys.Enter))
+                restartGame();
 
             // check to see if the background music is done playing and replay it
             if (backgroundSound.State != SoundState.Playing)
@@ -203,6 +206,8 @@ namespace Asteroids
                             engineSound.Play();
                         if (!Player.isMoving)
                             engineSound.Stop();
+                        if (((Player)obj).Lives <= 0)
+                            GameOver();
                         
                     }
                 }
@@ -245,6 +250,14 @@ namespace Asteroids
             base.Update(gameTime);
         }
 
+        private void restartGame()
+        {
+            mygameobjects.Clear();
+            hud.Clear();
+            LoadContent();
+            currentGameState = GameState.Play;
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -279,7 +292,22 @@ namespace Asteroids
                 // draw the created string
                 spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
             }
-            // draw our game objects if paused or playing
+
+                // draw our game objects if paused or playing
+            if (currentGameState == GameState.End)
+            {
+                // create the menu string
+                string stringToDraw =
+                    String.Format(
+                          "GAME OVER\n"
+                        + "    Press Esc to Exit.\n"
+                        + "    Press Enter to Restart.\n"
+                    );
+
+                // draw the created string
+                spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
+            }
+            
             else if (currentGameState == GameState.Pause || currentGameState == GameState.Play)
             {
                 // call the draw method for each object
@@ -295,6 +323,12 @@ namespace Asteroids
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected virtual void GameOver()
+        {
+            currentGameState = GameState.End;
+            
         }
     }
 }
