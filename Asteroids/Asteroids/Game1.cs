@@ -249,10 +249,7 @@ namespace Asteroids
                 {
                     foreach (GameObject obj2 in mygameobjects)
                     {
-                        if (obj1 is BlackHole && obj1 != obj2 && obj2.Enabled)
-                        {
-                            obj2.SuckIn(obj1);
-                        }
+
                         if (obj1 != obj2 && obj1.Enabled && obj2.Enabled && obj1.Collision(obj2))
                         {
                             obj1.OnCollide(obj2);
@@ -261,6 +258,10 @@ namespace Asteroids
                             if (obj1 is Bullet || obj2 is Bullet)
                                 if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
                                     explosionSound.Play();
+                        }
+                        if (obj1 is BlackHole && obj1 != obj2 && obj2.Enabled)
+                        {
+                            obj2.SuckIn(obj1);
                         }
                     }
                 }
