@@ -46,6 +46,7 @@ namespace Asteroids
 
         private int min_asteroids_begin = 15;
         private int max_asteroids_begin = 26;
+        private int yourmaxscore = 0;
 
         public Game1()
         {
@@ -328,7 +329,18 @@ namespace Asteroids
                         {
                             // put the score in the string to be drawn
                             Player p = (Player)item;
-                            stringToDraw += "    Your score is: " + p.Score + "!!\n";
+                            
+                            if (p.Score > yourmaxscore)
+                            {
+                                yourmaxscore = p.Score;
+                                stringToDraw += "     You got the new high score of: " +
+                                    yourmaxscore + "!!\n";
+                            }
+                            else
+                            {
+                                stringToDraw += "    Your max score is: " + yourmaxscore + "!!\n";
+                                stringToDraw += "    Your score is: " + p.Score + "!!\n";
+                            }
                             break;
                         }
                     }
