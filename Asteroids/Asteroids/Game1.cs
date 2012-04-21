@@ -24,7 +24,8 @@ namespace Asteroids
         public static float Gravity = 50000f;
         public static int AstMinVel = 2;
         public static int AstMaxVel = 4;
-        public static ParticleEngine engine; 
+        public static ParticleEngine engine;
+        public static SoundEffectInstance playerdie;
 
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
@@ -57,8 +58,8 @@ namespace Asteroids
             screenWidth = displayMode.Width;
             screenHeight = displayMode.Height;
 
-            min_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
-            max_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)500);
+            min_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)700);
+            max_asteroids_begin *= (int)Math.Floor((float)screenWidth / (float)700);
 
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = screenHeight;
@@ -114,6 +115,8 @@ namespace Asteroids
             engineSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("doctorWho2");
             backgroundSound = tempSound.CreateInstance();
+
+            playerdie = explosionSound;
 
             // start the background music
             backgroundSound.Play();
