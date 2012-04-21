@@ -26,6 +26,7 @@ namespace Asteroids
         public static int AstMaxVel = 4;
         public static ParticleEngine engine;
         public static SoundEffectInstance playerdie;
+        public static int HighScore = 0;
 
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
@@ -46,7 +47,6 @@ namespace Asteroids
 
         private int min_asteroids_begin = 15;
         private int max_asteroids_begin = 26;
-        private int yourmaxscore = 0;
 
         public Game1()
         {
@@ -330,15 +330,15 @@ namespace Asteroids
                             // put the score in the string to be drawn
                             Player p = (Player)item;
                             
-                            if (p.Score > yourmaxscore)
+                            if (p.Score > HighScore)
                             {
-                                yourmaxscore = p.Score;
+                                HighScore = p.Score;
                                 stringToDraw += "     You got the new high score of: " +
-                                    yourmaxscore + "!!\n";
+                                    HighScore + "!!\n";
                             }
                             else
                             {
-                                stringToDraw += "    Your max score is: " + yourmaxscore + "!!\n";
+                                stringToDraw += "    Your max score is: " + HighScore + "!!\n";
                                 stringToDraw += "    Your score is: " + p.Score + "!!\n";
                             }
                             break;
