@@ -74,12 +74,9 @@ namespace Asteroids
                     this.Respawn();
                     this.respawnElapsed = TimeSpan.Zero;
                     int x, y;
-                    x = Game1.randy.Next(int.MinValue,int.MaxValue);
-                    y = Game1.randy.Next(int.MinValue,int.MaxValue);
+                    x = Game1.randy.Next(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Width + 51);
+                    y = Game1.randy.Next(Game.Window.ClientBounds.Height, Game.Window.ClientBounds.Height + 51);
                     this.position = new Vector2(x, y);
-                    x = Game1.randy.Next(-2, 2);
-                    y = Game1.randy.Next(-2, 2);
-                    this.velocity = new Vector2(x, y);
                     WrapAround();
                 }
             }
@@ -142,7 +139,14 @@ namespace Asteroids
         public override void Respawn()
         {
             this.Enabled = true;
-            this.velocity = new Vector2(Game1.randy.Next(-10, 11) / 10, Game1.randy.Next(-10, 11) / 10);
+            int ast_vel_x, ast_vel_y;
+            ast_vel_x = Game1.randy.Next(Game1.AstMinVel, Game1.AstMaxVel);
+            ast_vel_y = Game1.randy.Next(Game1.AstMinVel, Game1.AstMaxVel);
+            if (Game1.randy.Next(0, 50) <= 24)
+                ast_vel_x *= -1;
+            if (Game1.randy.Next(0, 50) <= 24)
+                ast_vel_y *= -1;
+            this.velocity = new Vector2(ast_vel_x, ast_vel_y);
             this.color = Color.White;
         }
     }

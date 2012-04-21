@@ -22,7 +22,9 @@ namespace Asteroids
         //testing testing
         public static Random randy = new Random();
         public static float Gravity = 50000f;
-        public static ParticleEngine engine;
+        public static int AstMinVel = 2;
+        public static int AstMaxVel = 4;
+
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
         public GameState currentGameState = GameState.Menu;
@@ -39,6 +41,7 @@ namespace Asteroids
         private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
+        protected ParticleEngine engine;
 
         public Game1()
         {
@@ -121,13 +124,16 @@ namespace Asteroids
             number_asteroids = randy.Next(15, 26);
             // create a fixed number of asteroids onto the screen
             int ast_x, ast_y, ast_vel_x, ast_vel_y;
-            int maxvel = 3;
             for (int i = 0; i < number_asteroids; i++)
             {
                 ast_x = randy.Next(50, 700);
                 ast_y = randy.Next(50, 400);
-                ast_vel_x = randy.Next(-maxvel, maxvel);
-                ast_vel_y = randy.Next(-maxvel, maxvel);
+                ast_vel_x = randy.Next(AstMinVel, AstMaxVel);
+                ast_vel_y = randy.Next(AstMinVel, AstMaxVel);
+                if (Game1.randy.Next(0, 50) <= 24)
+                    ast_vel_x *= -1;
+                if (Game1.randy.Next(0, 50) <= 24)
+                    ast_vel_y *= -1;
                 mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
 
             }
