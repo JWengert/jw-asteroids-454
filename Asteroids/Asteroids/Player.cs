@@ -139,11 +139,12 @@ namespace Asteroids
         {
             this.Enabled = false;
             respawnElapsed = TimeSpan.Zero;
+            engine.Explosion(1000, this.position); 
             this.position = start_pos;
             isMoving = false;
             createBullet = false;
             this.lives--;
-            engine.Explosion(1000);
+
         }
 
         public override void Respawn()

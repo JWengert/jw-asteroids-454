@@ -70,7 +70,7 @@ namespace Asteroids
             }
         }
 
-        public void Explosion(int count)
+        public void Explosion(int count, Vector2 position)
         {
             Particle newpart;
             for (int i = 0; i < count; i++)
@@ -78,6 +78,7 @@ namespace Asteroids
                 newpart = GenerateNewParticle();
                 newpart.Velocity *= 10;
                 newpart.Size *= 2;
+                newpart.Position = position;
                 if (newpart.Velocity.LengthSquared() > 10)
                 {
                     newpart.Velocity.Normalize();

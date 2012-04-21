@@ -22,7 +22,7 @@ namespace Asteroids
         //testing testing
         public static Random randy = new Random();
         public static float Gravity = 50000f;
-
+        public static ParticleEngine engine;
         // let's us know what the current game state is
         public enum GameState { Menu, Pause, Play, End };
         public GameState currentGameState = GameState.Menu;
@@ -39,7 +39,6 @@ namespace Asteroids
         private SpriteFont score, menu;
         private int screenHeight = 768;
         private int screenWidth = 1024;
-        protected ParticleEngine engine;
 
         public Game1()
         {
