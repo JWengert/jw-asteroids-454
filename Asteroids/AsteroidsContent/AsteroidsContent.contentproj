@@ -146,11 +146,10 @@
       <Name>Menu</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
-     
-        </Compile>
-   </ItemGroup>
-   <ItemGroup>
-     <Compile Include="diamond.png">
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="diamond.png">
       <Name>diamond</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -171,6 +170,13 @@
       <Name>star</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="newfiresound.wav">
+      <Name>newfiresound</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

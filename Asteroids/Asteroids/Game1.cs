@@ -38,7 +38,7 @@ namespace Asteroids
         private Stack<Player> players = new Stack<Player>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole, star, diamond;
         private SoundEffect tempSound;
-        private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound;
+        private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound, newfiresound;
         private int number_asteroids = 10;
         private SpriteFont score, menu;
         private int screenHeight = 480;
@@ -115,12 +115,16 @@ namespace Asteroids
             engineSound = tempSound.CreateInstance();
             tempSound = Content.Load<SoundEffect>("doctorWho2");
             backgroundSound = tempSound.CreateInstance();
+            tempSound = Content.Load<SoundEffect>("newfiresound");
+            newfiresound = tempSound.CreateInstance();
 
             playerdie = explosionSound;
 
             // start the background music
             backgroundSound.Play();
-            backgroundSound.Volume = 0.1f;
+            backgroundSound.Volume = 0.3f;
+            newfiresound.Volume = .2f;
+            explosionSound.Volume = 1f;
             float bx, by, bvx, bvy;
             bx = (float)randy.NextDouble() * 1000;
             by = (float)randy.NextDouble() * 1000;
@@ -235,7 +239,8 @@ namespace Asteroids
                 while (players.Count != 0)
                 {
                     mygameobjects.Add(new Bullet(this, bullet, players.Pop()));
-                    bulletSound.Play();
+                    //bulletSound.Play();
+                    newfiresound.Play();
                 }
 
                 // check for any collisions between objects
@@ -324,6 +329,7 @@ namespace Asteroids
                             // put the score in the string to be drawn
                             Player p = (Player)item;
                             stringToDraw += "    Your score is: " + p.Score + "!!\n";
+                            break;
                         }
                     }
 
