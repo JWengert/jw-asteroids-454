@@ -119,13 +119,12 @@ namespace Asteroids
             tempSound = Content.Load<SoundEffect>("newfiresound");
             newfiresound = tempSound.CreateInstance();
 
-            playerdie = explosionSound;
-
             // start the background music
             backgroundSound.Play();
             backgroundSound.Volume = 0.3f;
-            newfiresound.Volume = .2f;
+            newfiresound.Volume = .1f;
             explosionSound.Volume = 1f;
+            playerdie = explosionSound;
             float bx, by, bvx, bvy;
             bx = (float)randy.NextDouble() * 1000;
             by = (float)randy.NextDouble() * 1000;
@@ -277,6 +276,8 @@ namespace Asteroids
 
         private void restartGame()
         {
+            if (backgroundSound.State != SoundState.Stopped)
+                backgroundSound.Stop();
             mygameobjects.Clear();
             hud.Clear();
             LoadContent();
