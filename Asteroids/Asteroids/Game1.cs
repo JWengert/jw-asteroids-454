@@ -37,11 +37,12 @@ namespace Asteroids
         private List<GameObject> mygameobjects = new List<GameObject>();
         private List<guiitem> hud = new List<guiitem>();
         private Stack<Player> players = new Stack<Player>();
+        private List<FloatingScore> killedasteroids = new List<FloatingScore>();
         private Texture2D rock1, rock2, bullet, spaceship, outerspace, hp_empty, hp_full, livesicon, blackhole, star, diamond;
         private SoundEffect tempSound;
         private SoundEffectInstance backgroundSound, engineSound, bulletSound, explosionSound, deathSound, newfiresound;
         private int number_asteroids = 10;
-        private SpriteFont score, menu;
+        private SpriteFont score, menu, floatingfont;
         private int screenHeight = 480;
         private int screenWidth = 800;
 
@@ -91,6 +92,7 @@ namespace Asteroids
             spriteBatch = new SpriteBatch(GraphicsDevice);
             score = Content.Load<SpriteFont>("Score");
             menu = Content.Load<SpriteFont>("Menu");
+            floatingfont = Content.Load<SpriteFont>("FloatingFont");
 
             // load the images
             rock1 = Content.Load<Texture2D>("asteroid1");
@@ -241,6 +243,10 @@ namespace Asteroids
                     }
                 }
 
+
+                foreach (FloatingScore fs in killedasteroids)
+                    fs.Update(gameTime);
+
                 // create a bullet for each player who fired one
                 while (players.Count != 0)
                 {
@@ -262,7 +268,10 @@ namespace Asteroids
                             // if one object is a bullet and the other object is an asteroid and was disabled, it "exploded"
                             if (obj1 is Bullet || obj2 is Bullet)
                                 if ((obj1 is Asteroid && !obj1.Enabled) || (obj2 is Asteroid && !obj2.Enabled))
+                                {
+                                    killedasteroids.Add(new FloatingScore(this, obj1.Position, floatingfont));
                                     explosionSound.Play();
+                                }
                         }
                         if (obj1 is BlackHole && obj1 != obj2 && obj2.Enabled)
                         {
@@ -275,6 +284,13 @@ namespace Asteroids
                 for (int i = mygameobjects.Count - 1; i >= 0; i--)
                     if (!mygameobjects[i].IsAlive)
                         mygameobjects.RemoveAt(i);
+
+                // remove floating scores
+                for (int i = killedasteroids.Count - 1; i >= 0; i--)
+                {
+                    if (killedasteroids[i].TimeAlive > TimeSpan.FromSeconds(3))
+                        killedasteroids.RemoveAt(i);
+                }
             }
 
             // update the base
@@ -309,6 +325,10 @@ namespace Asteroids
                 // call the draw method for each object
             foreach (GameObject obj in mygameobjects)
                 obj.Draw(gameTime, spriteBatch);
+
+            // draw floating scores
+            foreach (FloatingScore fs in killedasteroids)
+                fs.Draw(spriteBatch);
 
             if (currentGameState == GameState.Play || currentGameState == GameState.Pause)
             {
@@ -353,11 +373,9 @@ namespace Asteroids
                         }
                     }
 
-
                     // draw the created string
                     spriteBatch.DrawString(menu, stringToDraw, new Vector2(), Color.White);
                 }
-
             }
 
             // draw the menu

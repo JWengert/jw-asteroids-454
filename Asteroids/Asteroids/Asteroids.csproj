@@ -123,6 +123,7 @@
     <Compile Include="Asteroid.cs" />
     <Compile Include="BlackHole.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="FloatingScore.cs" />
     <Compile Include="livesdisplay.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="guiitem.cs" />
