@@ -72,7 +72,7 @@ namespace Asteroids
                 else
                     sb.Draw(empty, position + offset * i, Color.White);
             }
-            string stringToDraw = String.Format(
+            string stringToDraw = String.Format("Level = " + this.player.Level + "\n" +
                   "Score = " + this.player.Score + "\n"
                 + "High Score = " + Game1.HighScore);
             sb.DrawString(score, stringToDraw, position - offset, Color.White);

@@ -35,6 +35,7 @@ namespace Asteroids
         private int basescore = 100;
         private int basefactor = 10;
         private int bullettimer = 250;
+        private int level = 0;
 
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, ParticleEngine engine)
@@ -77,9 +78,10 @@ namespace Asteroids
 
                 if (Score >= basescore)
                 {
-                    bullettimer -= 50;
+                    bullettimer -= 100;
                     timeNewBullet = TimeSpan.FromMilliseconds(bullettimer);
                     basescore = basescore * basefactor;
+                    level++;
                 }
 
                 // if the sprite is too close to the mouse, don't move the player anymore
@@ -163,6 +165,7 @@ namespace Asteroids
         {
             this.Enabled = true;
             this.shields = maxshields;
+            this.level = 0;
             mercytime = TimeSpan.Zero;
             this.velocity = new Vector2(0);
             this.force = new Vector2(0);
@@ -205,5 +208,7 @@ namespace Asteroids
         }
 
         public int Score { get { return points; } set { points = value; } }
+
+        public int Level { get { return level; } }
     }
 }

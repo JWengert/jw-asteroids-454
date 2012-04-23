@@ -369,6 +369,7 @@ namespace Asteroids
                                 stringToDraw += "    Your max score is: " + HighScore + "!!\n";
                                 stringToDraw += "    Your score is: " + p.Score + "!!\n";
                             }
+                            stringToDraw += "    You made it to level: " + p.Level + "!!\n";
                             break;
                         }
                     }
