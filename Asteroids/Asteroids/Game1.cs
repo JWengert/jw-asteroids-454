@@ -119,13 +119,12 @@ namespace Asteroids
             tempSound = Content.Load<SoundEffect>("newfiresound");
             newfiresound = tempSound.CreateInstance();
 
-            playerdie = explosionSound;
-
             // start the background music
             backgroundSound.Play();
             backgroundSound.Volume = 0.3f;
-            newfiresound.Volume = .2f;
+            newfiresound.Volume = .1f;
             explosionSound.Volume = 1f;
+            playerdie = explosionSound;
             float bx, by, bvx, bvy;
             bx = (float)randy.NextDouble() * 1000;
             by = (float)randy.NextDouble() * 1000;
@@ -148,12 +147,14 @@ namespace Asteroids
                 ast_y = randy.Next(50, screenHeight);
                 ast_vel_x = randy.Next(AstMinVel, AstMaxVel);
                 ast_vel_y = randy.Next(AstMinVel, AstMaxVel);
-                if (Game1.randy.Next(0, 50) <= 24)
+                if (randy.Next(0, 50) <= 24)
                     ast_vel_x *= -1;
-                if (Game1.randy.Next(0, 50) <= 24)
+                if (randy.Next(0, 50) <= 24)
                     ast_vel_y *= -1;
-                mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
-
+                if (randy.Next(0, 50) <= 24)
+                    mygameobjects.Add(new Asteroid(this, rock1, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
+                else
+                    mygameobjects.Add(new Asteroid(this, rock2, new Vector2(ast_x, ast_y), new Vector2(ast_vel_x, ast_vel_y)));
             }
             
             hud.Add(new lifebar(this, p1, 1, hp_full, hp_empty, score));
@@ -278,6 +279,8 @@ namespace Asteroids
 
         private void restartGame()
         {
+            if (backgroundSound.State != SoundState.Stopped)
+                backgroundSound.Stop();
             mygameobjects.Clear();
             hud.Clear();
             LoadContent();
