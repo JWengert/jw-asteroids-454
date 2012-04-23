@@ -32,6 +32,10 @@ namespace Asteroids
         public int MaxShields { get { return maxshields; } set { ;} }
         private ParticleEngine engine;
 
+        private int basescore = 100;
+        private int basefactor = 10;
+        private int bullettimer = 250;
+
         // constructor does most the initialization of the inherited variables
         public Player(Game game, Texture2D picture, Vector2 startposition, Vector2 velocity, ParticleEngine engine)
             : base(game, picture)
@@ -70,6 +74,13 @@ namespace Asteroids
                 Vector2 mouseLocation = new Vector2(mouseState.X, mouseState.Y);
                 Vector2 spriteLocation = new Vector2(this.position.X, this.position.Y);
                 Vector2 direction = spriteLocation - mouseLocation;
+
+                if (Score >= basescore)
+                {
+                    bullettimer -= 50;
+                    timeNewBullet = TimeSpan.FromMilliseconds(bullettimer);
+                    basescore = basescore * basefactor;
+                }
 
                 // if the sprite is too close to the mouse, don't move the player anymore
                 if (direction.Length() > 10)
