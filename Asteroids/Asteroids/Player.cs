@@ -78,7 +78,7 @@ namespace Asteroids
 
                 if (Score >= basescore)
                 {
-                    bullettimer -= 100;
+                    bullettimer -= 50;
                     timeNewBullet = TimeSpan.FromMilliseconds(bullettimer);
                     basescore = basescore * basefactor;
                     level++;
