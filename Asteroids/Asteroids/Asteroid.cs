@@ -97,6 +97,9 @@ namespace Asteroids
                 else
                 {
                     Game1.engine.Explosion(100, this.position, 0.3f);
+                    Bullet b = (Bullet)obj;
+                    b.Owner.Score += 10;
+                    Game1.HighScore += 10;
                     this.Die();
                 }
             }
@@ -149,5 +152,7 @@ namespace Asteroids
             this.velocity = new Vector2(ast_vel_x, ast_vel_y);
             this.color = Color.White;
         }
+
+        public int Hits { get { return hits; } }
     }
 }
