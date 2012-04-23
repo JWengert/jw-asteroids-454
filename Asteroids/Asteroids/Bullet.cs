@@ -55,10 +55,10 @@ namespace Asteroids
             if (obj is Asteroid)
             {
                 this.alive = false;
-                this.owner.Score++;
+                //this.owner.Score++;
                 obj.OnCollide(this);
-                if (Game1.HighScore < this.owner.Score)
-                    Game1.HighScore++;                
+                //if (Game1.HighScore < this.owner.Score)
+                //    Game1.HighScore++;                
             }
             if (obj is BlackHole)
             {

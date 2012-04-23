@@ -99,7 +99,8 @@ namespace Asteroids
                     Game1.engine.Explosion(100, this.position, 0.3f);
                     Bullet b = (Bullet)obj;
                     b.Owner.Score += 10;
-                    Game1.HighScore += 10;
+                    if (Game1.HighScore < b.Owner.Score)
+                        Game1.HighScore += 10;
                     this.Die();
                 }
             }
