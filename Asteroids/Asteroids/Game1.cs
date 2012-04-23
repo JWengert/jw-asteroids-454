@@ -232,7 +232,11 @@ namespace Asteroids
                         if (!Player.isMoving)
                             engineSound.Stop();
                         if (((Player)obj).Lives <= 0)
+                        {
+                            deathSound.Volume = 1f;
+                            deathSound.Play();
                             GameOver();
+                        }
                         obj.Update(gameTime);
                     }
                 }
